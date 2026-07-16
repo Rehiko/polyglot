@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Polyglot</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body class="auth-page">
+    <header class="auth-header">
+        <a class="auth-logo" href="index.html" aria-label="Polyglot home">POLYGLOT</a>
+        <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+    </header>
+
+    <main class="auth-layout">
+        <section class="auth-intro" aria-labelledby="authIntroTitle">
+            <span class="eyebrow">Your language journey</span>
+            <h1 id="authIntroTitle">Learn. Speak.<br><span>Connect.</span></h1>
+            <p>Book lessons with trusted teachers and keep all your learning materials in one place.</p>
+
+            <ul class="benefit-list">
+                <li><span>✓</span> Choose a teacher who matches your goals</li>
+                <li><span>✓</span> Manage lessons from your dashboard</li>
+                <li><span>✓</span> Learn at your own pace</li>
+            </ul>
+        </section>
+
+        <section class="auth-card" aria-labelledby="authTitle">
+            <div class="auth-tabs" role="tablist" aria-label="Account options">
+                <button class="auth-tab active" id="loginTab" type="button" role="tab" aria-selected="true" aria-controls="loginForm" data-tab="login">
+                    Log in
+                </button>
+                <button class="auth-tab" id="registerTab" type="button" role="tab" aria-selected="false" aria-controls="registerForm" data-tab="register">
+                    Sign up
+                </button>
+            </div>
+
+            <div id="setupNotice" class="notice warning" hidden>
+                Add your Supabase URL and publishable key to <strong>supabase-config.js</strong> to enable real accounts.
+            </div>
+
+            <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="loginTab" novalidate>
+                <div class="form-heading">
+                    <h2 id="authTitle">Welcome back</h2>
+                    <p>Enter your details to continue learning.</p>
+                </div>
+
+                <div class="form-field">
+                    <label for="loginEmail">Email address</label>
+                    <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    <span class="field-error" data-error-for="loginEmail"></span>
+                </div>
+
+                <div class="form-field">
+                    <div class="label-row">
+                        <label for="loginPassword">Password</label>
+                        <button id="forgotPasswordButton" class="text-button" type="button">Forgot password?</button>
+                    </div>
+                    <div class="password-field">
+                        <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                        <button class="password-toggle" type="button" data-toggle-password="loginPassword" aria-label="Show password">Show</button>
+                    </div>
+                    <span class="field-error" data-error-for="loginPassword"></span>
+                </div>
+
+                <div id="loginMessage" class="notice" role="status" aria-live="polite" hidden></div>
+
+                <button class="primary-button" type="submit">
+                    <span>Log in</span>
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <p class="form-switch">New to Polyglot? <button type="button" data-open-tab="register">Create an account</button></p>
+            </form>
+
+            <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="registerTab" hidden novalidate>
+                <div class="form-heading">
+                    <h2>Create your account</h2>
+                    <p>Choose how you would like to use Polyglot.</p>
+                </div>
+
+                <fieldset class="role-fieldset">
+                    <legend>I want to</legend>
+                    <div class="role-options">
+                        <label class="role-option">
+                            <input type="radio" name="role" value="student" checked>
+                            <span class="role-icon" aria-hidden="true">学</span>
+                            <span><strong>Learn</strong><small>Find a teacher and book lessons</small></span>
+                        </label>
+
+                        <label class="role-option">
+                            <input type="radio" name="role" value="teacher">
+                            <span class="role-icon" aria-hidden="true">A+</span>
+                            <span><strong>Teach</strong><small>Create a profile and teach students</small></span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="form-field">
+                    <label for="registerName">Full name</label>
+                    <input id="registerName" name="fullName" type="text" autocomplete="name" placeholder="Your full name" required minlength="2">
+                    <span class="field-error" data-error-for="registerName"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="registerEmail">Email address</label>
+                    <input id="registerEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    <span class="field-error" data-error-for="registerEmail"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="registerPassword">Password</label>
+                    <div class="password-field">
+                        <input id="registerPassword" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required minlength="8">
+                        <button class="password-toggle" type="button" data-toggle-password="registerPassword" aria-label="Show password">Show</button>
+                    </div>
+                    <span class="password-hint">Use at least 8 characters, including a letter and a number.</span>
+                    <span class="field-error" data-error-for="registerPassword"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="confirmPassword">Confirm password</label>
+                    <div class="password-field">
+                        <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat your password" required>
+                        <button class="password-toggle" type="button" data-toggle-password="confirmPassword" aria-label="Show password">Show</button>
+                    </div>
+                    <span class="field-error" data-error-for="confirmPassword"></span>
+                </div>
+
+                <label class="terms-row">
+                    <input id="acceptTerms" type="checkbox" required>
+                    <span>I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</span>
+                </label>
+                <span class="field-error" data-error-for="acceptTerms"></span>
+
+                <div id="registerMessage" class="notice" role="status" aria-live="polite" hidden></div>
+
+                <button class="primary-button" type="submit">
+                    <span>Create account</span>
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <p class="form-switch">Already have an account? <button type="button" data-open-tab="login">Log in</button></p>
+            </form>
+        </section>
+    </main>
+
+    <dialog id="resetDialog" class="reset-dialog">
+        <form id="resetRequestForm" novalidate>
+            <button id="closeResetDialog" class="dialog-close" type="button" aria-label="Close">×</button>
+            <span class="dialog-icon" aria-hidden="true">@</span>
+            <h2>Reset your password</h2>
+            <p>Enter your email and we will send you a password reset link.</p>
+
+            <div class="form-field">
+                <label for="resetEmail">Email address</label>
+                <input id="resetEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+
+            <div id="resetMessage" class="notice" role="status" aria-live="polite" hidden></div>
+            <button class="primary-button" type="submit"><span>Send reset link</span><span aria-hidden="true">→</span></button>
+        </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

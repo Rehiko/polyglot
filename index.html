@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Polyglot</title>
+<link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="featured-teachers.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/favicon.png" type="image/png">
+<link rel="shortcut icon" href="/images/favicon.png">
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+POLYGLOT
+</div>
+
+
+<nav>
+
+<a href="teachers.html" data-i18n="teachers">
+    Teachers
+</a>
+
+<a href="#" data-i18n="courses">Courses</a>
+
+<a href="#" data-i18n="materials">
+Personalized Materials
+</a>
+
+<a href="login.html#login" data-i18n="login">Login</a>
+
+</nav>
+
+
+
+<div class="language-switcher">
+
+
+<button id="langBtn">
+    <img src="images/language-icon.png" alt="Language">
+    <span>Language</span>
+</button>
+
+
+
+<div class="language-menu" id="langMenu">
+
+
+<div onclick="changeLanguage('en')">
+<img src="images/flags/uk.png" alt="English"> English
+</div>
+
+
+<div onclick="changeLanguage('uk')">
+<img src="images/flags/ukraine.png" alt="Українська"> Українська
+</div>
+
+
+<div onclick="changeLanguage('es')">
+<img src="images/flags/spain.png" alt="Español"> Español
+</div>
+
+
+<div onclick="changeLanguage('ja')">
+<img src="images/flags/japan.png" alt="日本語"> 日本語
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="hero">
+
+
+<div class="hero-text">
+
+
+<h1 class="hero-title">
+    <span class="learn" data-i18n="titleLearn">Learn</span>
+    <span class="title-rest" data-i18n="titleRest">
+        languages anywhere.
+    </span>
+</h1>
+
+
+
+<p data-i18n="description">
+
+Choose your teacher, book lessons and access learning materials.
+
+</p>
+
+
+
+<button data-i18n="button">
+Find Teacher
+</button>
+
+
+
+</div>
+
+
+
+<div class="hero-card">
+
+    <div class="learning-preview">
+
+        <div class="learning-preview-text">
+
+            <h2>
+                Learn today.<br>
+                Use tomorrow.
+            </h2>
+
+            <ul>
+                <li>
+                    <span class="preview-check">✓</span>
+                    Real conversations
+                </li>
+
+                <li>
+                    <span class="preview-check">✓</span>
+                    Interactive activities
+                </li>
+
+                <li>
+                    <span class="preview-check">✓</span>
+                    Cultural insights
+                </li>
+
+                <li>
+                    <span class="preview-check">✓</span>
+                    Progress tracking
+                </li>
+            </ul>
+
+        </div>
+
+
+        <div class="learning-preview-image">
+
+            <img
+                src="images/language-globe.png"
+                alt="Learn languages around the world"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section class="languages">
+
+    <h2 data-i18n="popular">Choose your language</h2>
+
+    <div class="language-cards">
+
+        <!-- Spanish -->
+        <div class="language-card spanish-card">
+
+            <div class="language-illustration">
+                <img src="images/mexican-building.jpg" alt="Spanish-Mexico">
+            </div>
+
+            <div class="language-card-content">
+                <h3>Spanish</h3>
+
+                <p>
+                    From beginner to fluent.<br>
+                    Speak with confidence.
+                </p>
+
+                <a href="#">
+                    Learn more
+                    <span>→</span>
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- English -->
+        <div class="language-card english-card">
+
+            <div class="language-illustration">
+                <img src="images/london-building.png" alt="English">
+            </div>
+
+            <div class="language-card-content">
+                <h3>English</h3>
+                <p>
+                    Improve your communication<br>
+                    for work, travel and life.
+                </p>
+
+                <a href="#">
+                    Learn more
+                    <span>→</span>
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- Japanese -->
+        <div class="language-card japanese-card">
+
+            <div class="language-illustration">
+                <img src="images/japanese-building.png" alt="Japanese">
+            </div>
+
+            <div class="language-card-content">
+                <h3>Japanese</h3>
+
+                <p>
+                    Discover the language<br>
+                    and culture.
+                </p>
+
+                <a href="#">
+                    Learn more
+                    <span>→</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+<section class="teachers" id="teachers">
+    <div class="featured-teachers-heading">
+        <h2 data-i18n="featured">Featured Teachers</h2>
+        <a class="view-all-teachers" href="teachers.html">View all teachers →</a>
+    </div>
+
+    <p id="featuredTeachersMessage" class="featured-teachers-message">
+        Loading approved teachers...
+    </p>
+
+    <div id="featuredTeacherGrid" class="teacher-grid"></div>
+</section>
+
+
+
+
+
+<script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="featured-teachers.js"></script>
+
+
+</body>
+
+</html>

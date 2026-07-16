@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit teacher profile | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body class="simple-page">
+    <header class="simple-header dashboard-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+        <nav class="dashboard-nav" aria-label="Teacher dashboard">
+            <a href="teacher-dashboard.html">Overview</a>
+            <a class="active" href="teacher-profile-edit.html">My profile</a>
+            <a href="#">Schedule</a>
+            <a href="#">Students</a>
+        </nav>
+        <button id="logoutButton" class="logout-button" type="button">Log out</button>
+    </header>
+
+    <main class="profile-editor-main">
+        <section class="profile-editor-heading">
+            <div>
+                <span class="dashboard-eyebrow">Teacher profile</span>
+                <h1>Introduce yourself to students</h1>
+                <p>Complete the information that students will see on your public profile.</p>
+            </div>
+            <a class="secondary-button" href="teacher-dashboard.html">← Back to dashboard</a>
+        </section>
+
+        <div id="pageMessage" class="notice warning">Loading your profile...</div>
+
+        <form id="teacherProfileForm" class="teacher-profile-form" hidden novalidate>
+            <section class="editor-card photo-editor-card">
+                <div class="avatar-editor">
+                    <div id="avatarPlaceholder" class="avatar-placeholder">T</div>
+                    <img id="avatarPreview" alt="Teacher profile preview" hidden>
+                </div>
+                <div class="photo-editor-copy">
+                    <h2>Profile photo</h2>
+                    <p>Upload a clear portrait. JPG, PNG or WebP, maximum 5 MB.</p>
+                    <label class="upload-button" for="avatarFile">Choose photo</label>
+                    <input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+                    <span id="selectedFileName" class="selected-file-name"></span>
+                </div>
+            </section>
+
+            <section class="editor-card">
+                <div class="editor-section-heading">
+                    <span>01</span>
+                    <div><h2>Basic information</h2><p>Tell students who you are and what you teach.</p></div>
+                </div>
+
+                <div class="editor-fields">
+                    <div class="form-field full-field">
+                        <label for="fullName">Full name</label>
+                        <input id="fullName" type="text" autocomplete="name" maxlength="80" placeholder="Your full name" required>
+                        <span class="field-error" data-error-for="fullName"></span>
+                    </div>
+
+                    <div class="form-field full-field">
+                        <div class="label-row">
+                            <label for="headline">Profile headline</label>
+                            <span class="character-count"><span id="headlineCount">0</span>/120</span>
+                        </div>
+                        <input id="headline" type="text" maxlength="120" placeholder="Friendly English teacher helping beginners speak confidently" required>
+                        <span class="field-error" data-error-for="headline"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="languages">Languages you teach</label>
+                        <input id="languages" type="text" placeholder="English, Spanish" required>
+                        <span class="field-hint">Separate multiple languages with commas.</span>
+                        <span class="field-error" data-error-for="languages"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="nativeLanguage">Native language</label>
+                        <input id="nativeLanguage" type="text" maxlength="80" placeholder="Ukrainian" required>
+                        <span class="field-error" data-error-for="nativeLanguage"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="experienceYears">Teaching experience</label>
+                        <div class="input-suffix">
+                            <input id="experienceYears" type="number" min="0" max="80" step="1" placeholder="2" required>
+                            <span>years</span>
+                        </div>
+                        <span class="field-error" data-error-for="experienceYears"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="lessonDuration">Standard lesson duration</label>
+                        <select id="lessonDuration" required>
+                            <option value="30">30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60" selected>60 minutes</option>
+                            <option value="90">90 minutes</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="editor-card">
+                <div class="editor-section-heading">
+                    <span>02</span>
+                    <div><h2>Student levels</h2><p>Select all types of students you are happy to teach.</p></div>
+                </div>
+
+                <div class="level-options">
+                    <label><input type="checkbox" name="studentLevel" value="Beginner (A1–A2)"><span>Beginner <small>A1–A2</small></span></label>
+                    <label><input type="checkbox" name="studentLevel" value="Intermediate (B1–B2)"><span>Intermediate <small>B1–B2</small></span></label>
+                    <label><input type="checkbox" name="studentLevel" value="Advanced (C1–C2)"><span>Advanced <small>C1–C2</small></span></label>
+                    <label><input type="checkbox" name="studentLevel" value="Conversation practice"><span>Conversation <small>Speaking practice</small></span></label>
+                    <label><input type="checkbox" name="studentLevel" value="Exam preparation"><span>Exam preparation <small>Structured study</small></span></label>
+                </div>
+                <span class="field-error" data-error-for="studentLevels"></span>
+            </section>
+
+            <section class="editor-card">
+                <div class="editor-section-heading">
+                    <span>03</span>
+                    <div><h2>About your lessons</h2><p>Help students understand your personality and teaching style.</p></div>
+                </div>
+
+                <div class="editor-fields">
+                    <div class="form-field full-field">
+                        <div class="label-row">
+                            <label for="bio">About you</label>
+                            <span class="character-count"><span id="bioCount">0</span>/1500</span>
+                        </div>
+                        <textarea id="bio" rows="7" maxlength="1500" placeholder="Introduce yourself, your experience and the students you enjoy teaching..." required></textarea>
+                        <span class="field-error" data-error-for="bio"></span>
+                    </div>
+
+                    <div class="form-field full-field">
+                        <div class="label-row">
+                            <label for="teachingMethods">Teaching methods and materials</label>
+                            <span class="character-count"><span id="methodsCount">0</span>/1200</span>
+                        </div>
+                        <textarea id="teachingMethods" rows="6" maxlength="1200" placeholder="Describe your lesson structure, textbooks and learning materials..." required></textarea>
+                        <span class="field-error" data-error-for="teachingMethods"></span>
+                    </div>
+                </div>
+            </section>
+
+            <div id="formMessage" class="notice" role="status" aria-live="polite" hidden></div>
+
+            <div class="profile-form-actions">
+                <a class="secondary-button" href="teacher-dashboard.html">Cancel</a>
+                <button id="saveProfileButton" class="primary-button compact-button" type="submit">
+                    <span>Save profile</span><span aria-hidden="true">→</span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="teacher-profile-edit.js"></script>
+</body>
+
+</html>

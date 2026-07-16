@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment status | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="payments.css">
+</head>
+
+<body class="simple-page payment-result-page">
+    <main class="payment-result-card">
+        <a class="payment-result-logo" href="index.html">POLYGLOT</a>
+        <div id="paymentResultIcon" class="payment-result-icon"><span class="payment-spinner"></span></div>
+        <span class="packages-eyebrow">Stripe payment</span>
+        <h1 id="paymentResultTitle">Confirming your payment</h1>
+        <p id="paymentResultText">Please wait while the lessons are added to your balance.</p>
+        <div id="paymentResultDetails" class="payment-result-details" hidden></div>
+        <div class="payment-result-actions">
+            <a class="primary-button" href="student-dashboard.html">Open dashboard</a>
+            <a class="secondary-button" href="teachers.html">Find a teacher</a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="payment-success.js"></script>
+</body>
+
+</html>

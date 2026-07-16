@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson packages | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="payments.css">
+</head>
+
+<body class="simple-page packages-page">
+    <header class="simple-header public-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+        <nav class="public-nav">
+            <a href="teachers.html">Teachers</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a id="packagesLoginLink" href="login.html#login">Login</a>
+        </nav>
+    </header>
+
+    <main class="packages-main">
+        <section class="packages-hero">
+            <span class="packages-eyebrow">Lesson balance</span>
+            <h1>Choose your lesson package</h1>
+            <p>Pay securely in Ukrainian hryvnia. Lessons are added to your balance after Stripe confirms the payment.</p>
+        </section>
+
+        <section class="balance-banner">
+            <div>
+                <span>Your current balance</span>
+                <strong><span id="packagesBalance">—</span> lessons</strong>
+            </div>
+            <p id="packagesAccountMessage">Checking your account...</p>
+        </section>
+
+        <div id="packagesMessage" class="notice" role="status" hidden></div>
+        <section id="packagesGrid" class="packages-grid" aria-label="Lesson packages"></section>
+
+        <section class="payment-security-note">
+            <span aria-hidden="true">✓</span>
+            <div>
+                <strong>Secure payment with Stripe</strong>
+                <p>Polyglot never stores your card number. Your lesson balance changes only after a verified payment.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="packages.js"></script>
+</body>
+
+</html>

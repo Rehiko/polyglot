@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opening dashboard | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body class="simple-page dashboard-router-page">
+    <main class="router-card">
+        <a class="router-logo" href="index.html">POLYGLOT</a>
+        <span class="loading-spinner" aria-hidden="true"></span>
+        <h1>Opening your dashboard</h1>
+        <p id="dashboardMessage">Checking your account and profile...</p>
+        <a id="routerLoginLink" class="primary-button router-login-link" href="login.html#login" hidden>
+            <span>Return to login</span><span aria-hidden="true">→</span>
+        </a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

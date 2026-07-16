@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a teacher | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body class="simple-page teacher-directory-page">
+    <header class="simple-header public-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+        <nav class="public-nav">
+            <a class="active" href="teachers.html">Teachers</a>
+            <a href="index.html#languages">Languages</a>
+            <a href="login.html#login">Login</a>
+        </nav>
+    </header>
+
+    <main class="teacher-directory-main">
+        <section class="directory-hero">
+            <span class="dashboard-eyebrow">Learn with confidence</span>
+            <h1>Find the right teacher for you</h1>
+            <p>Explore approved Polyglot teachers and choose someone whose experience and teaching style match your goals.</p>
+        </section>
+
+        <section class="teacher-filters" aria-label="Teacher filters">
+            <label class="directory-search">
+                <span>Search</span>
+                <input id="teacherSearch" type="search" placeholder="Search by name or language">
+            </label>
+            <label class="directory-select">
+                <span>Language</span>
+                <select id="languageFilter">
+                    <option value="">All languages</option>
+                </select>
+            </label>
+        </section>
+
+        <div id="teachersMessage" class="directory-message">Loading approved teachers...</div>
+        <section id="teachersGrid" class="teachers-directory-grid" aria-live="polite"></section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="teachers.js"></script>
+</body>
+
+</html>

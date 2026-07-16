@@ -1,0 +1,175 @@
+.featured-teachers-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 35px;
+}
+
+.featured-teachers-heading h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    color: #17213d;
+}
+
+.view-all-teachers {
+    color: #243b16;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.view-all-teachers:hover {
+    text-decoration: underline;
+}
+
+.featured-teachers-message {
+    padding: 26px;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #526052;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.featured-teacher-card {
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.featured-teacher-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(24, 51, 19, 0.12);
+}
+
+.featured-teacher-photo {
+    position: relative;
+    height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(145deg, #eef3d8, #dbe8c0);
+}
+
+.featured-teacher-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.featured-teacher-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: #243b16;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.featured-approved-badge {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #18794e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.featured-teacher-content {
+    padding: 24px;
+}
+
+.featured-teacher-content h3 {
+    margin-bottom: 7px;
+    color: #101938;
+    font-size: 1.35rem;
+}
+
+.featured-teacher-headline {
+    min-height: 48px;
+    margin: 0 0 16px;
+    color: #596171;
+    line-height: 1.5;
+}
+
+.featured-language-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 31px;
+    margin-bottom: 17px;
+}
+
+.featured-language-chips span {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #f0f5db;
+    color: #33451e;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.featured-teacher-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 20px;
+    color: #6b7280;
+    font-size: 0.84rem;
+}
+
+.featured-profile-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border-radius: 999px;
+    background: #243b16;
+    color: #ffffff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.featured-profile-link:hover {
+    background: #365623;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+    .featured-teachers-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .featured-teacher-photo {
+        height: 240px;
+    }
+}
+
+/* Не розтягувати одну картку на всю ширину */
+#featuredTeacherGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Планшет */
+@media (max-width: 900px) {
+    #featuredTeacherGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Телефон */
+@media (max-width: 600px) {
+    #featuredTeacherGrid {
+        grid-template-columns: 1fr;
+    }
+}

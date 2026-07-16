@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher dashboard | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body class="simple-page" data-dashboard-role="teacher">
+    <header class="simple-header dashboard-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+
+        <nav class="dashboard-nav" aria-label="Teacher dashboard">
+            <a class="active" href="teacher-dashboard.html">Overview</a>
+            <a href="#availability">Schedule</a>
+            <a href="#">Students</a>
+            <a href="#">Materials</a>
+        </nav>
+
+        <button id="logoutButton" class="logout-button" type="button">Log out</button>
+    </header>
+
+    <main class="dashboard-main">
+        <div id="dashboardMessage" class="notice warning">Loading your teacher profile...</div>
+
+        <section id="dashboardContent" hidden>
+            <div class="welcome-card teacher-welcome">
+                <div>
+                    <span class="dashboard-eyebrow">Teacher dashboard</span>
+                    <h1>Welcome, <span id="userName">teacher</span>!</h1>
+                    <p id="userEmail"></p>
+                </div>
+
+                <div class="approval-box">
+                    <span>Profile status</span>
+                    <strong id="approvalStatus" class="approval-status pending">Pending</strong>
+                </div>
+            </div>
+
+            <div id="approvalNotice" class="teacher-notice">
+                Your profile is waiting for administrator approval. Complete your teacher details while you wait.
+            </div>
+
+            <div class="dashboard-grid">
+                <article id="profileStepCard" class="dashboard-card accent-card">
+                    <span class="dashboard-card-icon">01</span>
+                    <h2>Complete your profile</h2>
+                    <p>Add your biography, teaching languages, experience and teaching methods.</p>
+                </article>
+
+                <article id="scheduleStepCard" class="dashboard-card">
+                    <span class="dashboard-card-icon">02</span>
+                    <h2>Your schedule</h2>
+                    <p>Choose your working days and hours from Monday to Sunday.</p>
+                </article>
+
+                <article class="dashboard-card">
+                    <span class="dashboard-card-icon">03</span>
+                    <h2>Your students</h2>
+                    <p>Your booked students and upcoming lessons will appear here.</p>
+                </article>
+            </div>
+
+            <section class="dashboard-panel">
+                <div>
+                    <span class="dashboard-eyebrow">Teacher profile</span>
+                    <h2>Introduce yourself to students</h2>
+                    <p>Keep your biography, languages and teaching information up to date.</p>
+                </div>
+                <a class="primary-button compact-button" href="teacher-profile-edit.html"><span>Edit my profile</span><span>→</span></a>
+            </section>
+
+            <section id="availability" class="schedule-panel">
+                <div class="schedule-panel-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">Availability</span>
+                        <h2>Set your weekly working hours</h2>
+                        <p>Enable the days you teach and choose the start and end of your working time.</p>
+                    </div>
+                    <span id="teacherTimezone" class="timezone-badge"></span>
+                </div>
+
+                <form id="weeklyScheduleForm" class="weekly-schedule-form">
+                    <div class="weekly-schedule-labels" aria-hidden="true">
+                        <span>Day</span><span>From</span><span>To</span>
+                    </div>
+                    <div id="weeklyScheduleRows" class="weekly-schedule-rows"></div>
+                    <button id="saveScheduleButton" class="primary-button compact-button" type="submit">
+                        <span>Save weekly schedule</span><span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p id="lessonDurationHint" class="schedule-hint"></p>
+                <div id="scheduleMessage" class="notice" role="status" hidden></div>
+
+                <div class="upcoming-bookings-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">Bookings</span>
+                        <h3>Upcoming booked lessons</h3>
+                    </div>
+                </div>
+                <div id="teacherBookings" class="teacher-slots-list"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="dashboard-page.js"></script>
+    <script src="teacher-schedule.js"></script>
+</body>
+
+</html>

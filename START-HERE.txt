@@ -1,0 +1,180 @@
+POLYGLOT — ОПЛАТА ПАКЕТІВ У ГРИВНЯХ
+
+ПАКЕТИ
+
+- 1 урок: 300 грн
+- 5 уроків: 1500 грн
+- 20 уроків: 6000 грн
+
+ЩО ДОДАНО
+
+- сторінка packages.html з пакетами;
+- Stripe Checkout;
+- безпечний Stripe webhook у Supabase Edge Functions;
+- автоматичне нарахування уроків після підтвердженої оплати;
+- бронювання з безкоштовного або платного балансу;
+- історія поповнень і списань у кабінеті учня;
+- сторінка payment-success.html для перевірки платежу.
+
+============================================================
+1. ФАЙЛИ САЙТУ
+============================================================
+
+Замінити наявні файли:
+
+- auth.js
+- booking.css
+- dashboard-page.js
+- student-dashboard.html
+- supabase-setup.sql
+- teacher-profile.html
+- teacher-profile.js
+
+Додати нові файли поруч з іншими файлами сайту:
+
+- packages.html
+- packages.js
+- payment-success.html
+- payment-success.js
+- payments.css
+
+Не замінювати supabase-config.js.
+
+Папку supabase НЕ потрібно завантажувати на звичайний статичний хостинг.
+Вона використовується для розгортання серверних Edge Functions.
+
+============================================================
+2. ОНОВИТИ БАЗУ SUPABASE
+============================================================
+
+1. Відкрити Supabase -> SQL Editor -> New query.
+2. Відкрити новий файл supabase-setup.sql.
+3. Скопіювати весь SQL у редактор.
+4. Натиснути Run.
+
+Будуть створені таблиці:
+
+- lesson_packages
+- lesson_purchases
+- lesson_credit_transactions
+
+У student_lesson_balances вже зберігається поточний платний баланс.
+
+============================================================
+3. СТВОРИТИ STRIPE-АВТОРИЗАЦІЮ
+============================================================
+
+Спочатку використовувати лише Stripe Test mode.
+
+1. Створити або відкрити Stripe-акаунт з країною Ireland.
+2. У Stripe Dashboard увімкнути Test mode.
+3. Відкрити Developers -> API keys.
+4. Скопіювати Secret key, який починається з sk_test_.
+
+Ніколи не вставляти sk_test_ або sk_live_ у JavaScript сайту,
+supabase-config.js чи GitHub. Ключ зберігається тільки в Supabase Secrets.
+
+============================================================
+4. РОЗГОРНУТИ SUPABASE EDGE FUNCTIONS
+============================================================
+
+У терміналі перейти до папки, де знаходиться папка supabase з цього архіву.
+
+Якщо Supabase CLI ще не встановлений:
+
+    npm install supabase --save-dev
+
+Увійти та підключити проєкт:
+
+    npx supabase login
+    npx supabase link --project-ref YOUR_PROJECT_ID
+
+YOUR_PROJECT_ID можна знайти в Supabase -> Project Settings -> General.
+
+Додати Stripe secret і URL сайту:
+
+    npx supabase secrets set STRIPE_SECRET_KEY=sk_test_YOUR_KEY SITE_URL=https://YOUR-SITE-DOMAIN
+
+SITE_URL — це адреса опублікованого сайту без назви HTML-файлу.
+Наприклад: https://polyglot.example.com
+
+Розгорнути функції:
+
+    npx supabase functions deploy create-checkout
+    npx supabase functions deploy stripe-webhook --no-verify-jwt
+
+============================================================
+5. ДОДАТИ STRIPE WEBHOOK
+============================================================
+
+У Stripe Test mode:
+
+1. Відкрити Developers -> Webhooks.
+2. Створити endpoint із URL:
+
+   https://YOUR_PROJECT_ID.supabase.co/functions/v1/stripe-webhook
+
+3. Додати події:
+
+   checkout.session.completed
+   checkout.session.async_payment_succeeded
+   checkout.session.async_payment_failed
+   checkout.session.expired
+
+4. Відкрити створений endpoint і скопіювати Signing secret (whsec_...).
+5. Додати його до Supabase:
+
+    npx supabase secrets set STRIPE_WEBHOOK_SECRET=whsec_YOUR_SECRET
+
+За потреби повторно розгорнути webhook:
+
+    npx supabase functions deploy stripe-webhook --no-verify-jwt
+
+============================================================
+6. ПЕРЕВІРИТИ В TEST MODE
+============================================================
+
+1. Увійти на сайт як учень.
+2. Відкрити packages.html.
+3. Вибрати пакет.
+4. На тестовій сторінці Stripe використати картку:
+
+   4242 4242 4242 4242
+
+   Будь-яка майбутня дата, будь-який CVC і поштовий індекс.
+
+5. Після оплати Stripe поверне на payment-success.html.
+6. Перевірити баланс у Student dashboard.
+7. У Supabase Table Editor перевірити:
+
+   lesson_purchases -> status = paid
+   student_lesson_balances -> paid_lessons збільшився
+   lesson_credit_transactions -> з'явилося поповнення
+
+Потім забронювати урок. Після використання безкоштовного уроку платний
+баланс повинен зменшитися на 1.
+
+============================================================
+7. ПЕРЕХІД У LIVE MODE
+============================================================
+
+Після повного тестування:
+
+1. Активувати Stripe-акаунт і пройти перевірку бізнесу.
+2. Замінити STRIPE_SECRET_KEY на sk_live_ ключ.
+3. Створити окремий webhook у Stripe Live mode.
+4. Замінити STRIPE_WEBHOOK_SECRET на live Signing secret.
+5. Повторно розгорнути функції.
+
+Платежі списуються в UAH. Stripe може конвертувати виплату на ірландський
+банківський рахунок у валюту розрахункового рахунку та застосовувати FX-комісію.
+Перевірити налаштування виплат і комісії в Stripe Dashboard до запуску.
+
+============================================================
+ВАЖЛИВІ ОБМЕЖЕННЯ ЦЬОГО ЕТАПУ
+============================================================
+
+- Автоматичне повернення коштів і уроків ще не реалізоване.
+- Учень поки не може сам скасувати оплачений урок.
+- До запуску реальних оплат потрібно визначити правила скасування та повернення.
+- Зарплата викладачів не зберігається і не показується в цій системі.

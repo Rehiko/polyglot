@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher profile | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body class="simple-page teacher-directory-page">
+    <header class="simple-header public-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+        <nav class="public-nav">
+            <a href="teachers.html">← All teachers</a>
+            <a href="login.html#login">Login</a>
+        </nav>
+    </header>
+
+    <main class="public-profile-main">
+        <div id="profileMessage" class="directory-message">Loading teacher profile...</div>
+
+        <article id="publicTeacherProfile" class="public-teacher-profile" hidden>
+            <aside class="public-profile-sidebar">
+                <div id="publicAvatar" class="public-profile-avatar"></div>
+                <span class="public-approved-badge">✓ Approved teacher</span>
+                <h1 id="publicTeacherName"></h1>
+                <p id="publicTeacherHeadline" class="public-profile-headline"></p>
+                <div id="publicLanguages" class="teacher-language-chips centered-chips"></div>
+                <a class="primary-button" href="#bookLesson"><span>Book a lesson</span><span>↓</span></a>
+            </aside>
+
+            <section class="public-profile-content">
+                <div class="public-profile-facts">
+                    <div><span>Experience</span><strong id="publicExperience"></strong></div>
+                    <div><span>Lesson duration</span><strong id="publicDuration"></strong></div>
+                    <div><span>Native language</span><strong id="publicNativeLanguage"></strong></div>
+                </div>
+
+                <section id="bookLesson" class="booking-section">
+                    <span class="dashboard-eyebrow">Instant booking</span>
+                    <h2>Choose a lesson time</h2>
+                    <p class="booking-intro">Your first lesson at Polyglot is free. Times are shown in your local timezone.</p>
+                    <div class="booking-summary">
+                        <span id="bookingTimezone" class="timezone-badge"></span>
+                        <strong id="bookingAccountStatus">Checking your lesson balance...</strong>
+                    </div>
+                    <a id="buyLessonsLink" class="buy-lessons-link" href="packages.html" hidden>Buy lesson package →</a>
+                    <div id="bookingMessage" class="notice" role="status" hidden></div>
+                    <div class="week-navigation">
+                        <button id="previousWeekButton" type="button" aria-label="Previous week">←</button>
+                        <strong id="bookingWeekLabel"></strong>
+                        <button id="nextWeekButton" type="button" aria-label="Next week">→</button>
+                    </div>
+                    <div id="availabilityList" class="weekly-booking-calendar"></div>
+                </section>
+
+                <section>
+                    <span class="dashboard-eyebrow">About the teacher</span>
+                    <h2>About me</h2>
+                    <p id="publicBio" class="profile-long-text"></p>
+                </section>
+                <section>
+                    <span class="dashboard-eyebrow">Learning experience</span>
+                    <h2>Teaching methods and materials</h2>
+                    <p id="publicMethods" class="profile-long-text"></p>
+                </section>
+                <section>
+                    <span class="dashboard-eyebrow">Suitable for</span>
+                    <h2>Student levels</h2>
+                    <div id="publicLevels" class="public-level-list"></div>
+                </section>
+            </section>
+        </article>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="teacher-profile.js"></script>
+</body>
+
+</html>

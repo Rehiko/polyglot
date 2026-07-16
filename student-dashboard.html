@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student dashboard | Polyglot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body class="simple-page" data-dashboard-role="student">
+    <header class="simple-header dashboard-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+
+        <nav class="dashboard-nav" aria-label="Student dashboard">
+            <a class="active" href="student-dashboard.html">Overview</a>
+            <a href="teachers.html">Find a teacher</a>
+            <a href="packages.html">Lesson packages</a>
+            <a href="#">Materials</a>
+        </nav>
+
+        <button id="logoutButton" class="logout-button" type="button">Log out</button>
+    </header>
+
+    <main class="dashboard-main">
+        <div id="dashboardMessage" class="notice warning">Loading your profile...</div>
+
+        <section id="dashboardContent" hidden>
+            <div class="welcome-card student-welcome">
+                <div>
+                    <span class="dashboard-eyebrow">Student dashboard</span>
+                    <h1>Welcome, <span id="userName">learner</span>!</h1>
+                    <p id="userEmail"></p>
+                </div>
+                <a class="dashboard-action" href="teachers.html">Find a teacher <span>→</span></a>
+            </div>
+
+            <div class="dashboard-grid">
+                <article class="dashboard-card accent-card">
+                    <span class="dashboard-card-icon">01</span>
+                    <h2 id="studentNextLessonTitle">Your next lesson</h2>
+                    <p id="studentNextLessonText">No lessons booked yet. Choose a teacher and book an available time.</p>
+                </article>
+
+                <article class="dashboard-card">
+                    <span class="dashboard-card-icon">02</span>
+                    <h2>Your lesson balance</h2>
+                    <p><strong id="paidLessonBalance" class="lesson-balance-number">0</strong> paid lessons</p>
+                    <p id="freeTrialStatus">Checking your free trial...</p>
+                    <a class="dashboard-inline-link" href="packages.html">Buy lesson package →</a>
+                </article>
+
+                <article class="dashboard-card">
+                    <span class="dashboard-card-icon">03</span>
+                    <h2>Learning materials</h2>
+                    <p>Files, vocabulary lists and homework from your teachers will appear here.</p>
+                </article>
+            </div>
+
+            <section class="dashboard-panel">
+                <div>
+                    <span class="dashboard-eyebrow">Next step</span>
+                    <h2>Choose your first teacher</h2>
+                    <p>Compare teacher profiles, languages, experience and teaching styles.</p>
+                </div>
+                <a class="primary-button compact-button" href="teachers.html"><span>Explore teachers</span><span>→</span></a>
+            </section>
+
+            <section class="lesson-history-panel">
+                <div>
+                    <span class="dashboard-eyebrow">Lesson balance</span>
+                    <h2>Recent balance activity</h2>
+                </div>
+                <div id="lessonTransactionList" class="lesson-transaction-list"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="dashboard-page.js"></script>
+</body>
+
+</html>

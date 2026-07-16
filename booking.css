@@ -1,0 +1,626 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.schedule-panel {
+    margin-top: 26px;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid #e2e7de;
+    border-radius: 25px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(24, 42, 16, .05);
+}
+
+.schedule-panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.schedule-panel-heading h2,
+.booking-section h2 {
+    margin: 5px 0 8px;
+    font-size: 1.5rem;
+}
+
+.schedule-panel-heading p,
+.booking-intro,
+.schedule-hint {
+    color: var(--muted);
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+.timezone-badge {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #f1f5e9;
+    color: var(--green-light);
+    font-size: .68rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.availability-form {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: minmax(260px, 420px) auto;
+    align-items: end;
+    gap: 14px;
+}
+
+.schedule-field {
+    display: grid;
+    gap: 7px;
+}
+
+.schedule-field > span {
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+.schedule-field input {
+    width: 100%;
+    min-height: 51px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    outline: none;
+    color: var(--ink);
+    background: #ffffff;
+}
+
+.schedule-field input:focus {
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 4px rgba(53, 87, 36, .1);
+}
+
+.availability-form .compact-button {
+    width: auto;
+    min-width: 145px;
+}
+
+.schedule-hint {
+    margin: 9px 0 18px;
+}
+
+.teacher-slots-list,
+.public-slots-list {
+    display: grid;
+    gap: 10px;
+}
+
+.schedule-slot,
+.public-slot {
+    padding: 15px 17px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #e5e9e2;
+    border-radius: 15px;
+    background: #fafcf7;
+}
+
+.schedule-slot-details,
+.public-slot > div {
+    min-width: 0;
+    display: grid;
+    gap: 3px;
+    flex: 1;
+}
+
+.schedule-slot-details strong,
+.public-slot strong {
+    font-size: .84rem;
+}
+
+.schedule-slot-time,
+.public-slot div span {
+    color: var(--muted);
+    font-size: .75rem;
+}
+
+.slot-status {
+    padding: 6px 9px;
+    border-radius: 999px;
+    font-size: .64rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.slot-status.available {
+    color: var(--success);
+    background: var(--success-bg);
+}
+
+.slot-status.booked {
+    color: #755400;
+    background: #fff3c4;
+}
+
+.slot-cancel-button,
+.slot-book-button {
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+.slot-cancel-button {
+    color: var(--danger);
+    background: var(--danger-bg);
+}
+
+.slot-book-button {
+    min-width: 135px;
+    color: #17230f;
+    background: var(--lime);
+}
+
+.slot-book-button:hover:not(:disabled) {
+    background: var(--lime-hover);
+}
+
+.slot-book-button:disabled,
+.slot-cancel-button:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+}
+
+.empty-slots-message {
+    padding: 21px;
+    border: 1px dashed #ccd5c6;
+    border-radius: 15px;
+    color: var(--muted);
+    text-align: center;
+    font-size: .78rem;
+}
+
+.booking-section {
+    padding: 24px;
+    border: 1px solid #dfe8d5;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fbfff0 0%, #ffffff 75%);
+}
+
+.booking-summary {
+    margin: 18px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.booking-summary strong {
+    color: var(--green);
+    font-size: .76rem;
+    text-align: right;
+}
+
+.booking-section .notice {
+    margin-bottom: 15px;
+}
+
+.buy-lessons-link {
+    margin: -6px 0 16px auto;
+    display: table;
+    color: var(--green-light);
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.buy-lessons-link[hidden] {
+    display: none;
+}
+
+.buy-lessons-link:hover {
+    text-decoration: underline;
+}
+
+.lesson-balance-number {
+    color: var(--lime);
+    font-size: 1.65rem;
+}
+
+.dashboard-inline-link {
+    margin-top: 14px;
+    display: inline-flex;
+    color: var(--green-light);
+    text-decoration: none;
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.dashboard-inline-link:hover {
+    text-decoration: underline;
+}
+
+.lesson-history-panel {
+    margin-top: 26px;
+    padding: clamp(24px, 4vw, 35px);
+    border: 1px solid #e2e7de;
+    border-radius: 25px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(24, 42, 16, .05);
+}
+
+.lesson-history-panel h2 {
+    margin: 5px 0 18px;
+    font-size: 1.35rem;
+}
+
+.lesson-transaction-list {
+    display: grid;
+    gap: 8px;
+}
+
+.lesson-transaction-item {
+    padding: 13px 15px;
+    display: grid;
+    grid-template-columns: 1fr auto 105px;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #e7ebe4;
+    border-radius: 13px;
+    background: #fafcf8;
+}
+
+.lesson-transaction-item > div {
+    display: grid;
+    gap: 3px;
+}
+
+.lesson-transaction-item > div strong {
+    font-size: .76rem;
+}
+
+.lesson-transaction-item > div span,
+.transaction-balance,
+.empty-transactions {
+    color: var(--muted);
+    font-size: .66rem;
+}
+
+.credit-positive,
+.credit-negative {
+    font-size: .9rem;
+}
+
+.credit-positive {
+    color: var(--success);
+}
+
+.credit-negative {
+    color: var(--danger);
+}
+
+.transaction-balance {
+    text-align: right;
+}
+
+.empty-transactions {
+    padding: 18px;
+    border: 1px dashed #d9dfd5;
+    border-radius: 13px;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+    .lesson-transaction-item {
+        grid-template-columns: 1fr auto;
+    }
+
+    .transaction-balance {
+        grid-column: 1 / -1;
+        text-align: left;
+    }
+
+    .schedule-panel-heading,
+    .booking-summary {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .availability-form {
+        grid-template-columns: 1fr;
+    }
+
+    .availability-form .compact-button {
+        width: 100%;
+    }
+
+    .schedule-slot,
+    .public-slot {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .schedule-slot-details,
+    .public-slot > div {
+        min-width: calc(100% - 95px);
+    }
+
+    .slot-book-button {
+        width: 100%;
+    }
+
+    .booking-summary strong {
+        text-align: left;
+    }
+}
+
+/* Weekly teacher schedule */
+.weekly-schedule-form {
+    margin-top: 26px;
+}
+
+.weekly-schedule-labels,
+.weekly-day-row {
+    display: grid;
+    grid-template-columns: minmax(190px, 1fr) 150px 150px;
+    gap: 14px;
+    align-items: center;
+}
+
+.weekly-schedule-labels {
+    padding: 0 16px 8px;
+    color: var(--muted);
+    font-size: .66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.weekly-schedule-rows {
+    display: grid;
+    gap: 9px;
+}
+
+.weekly-day-row {
+    padding: 13px 16px;
+    border: 1px solid #e5e9e2;
+    border-radius: 15px;
+    background: #f8faf6;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.weekly-day-row.enabled {
+    border-color: #cbdba8;
+    background: #fbfff0;
+}
+
+.weekly-day-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.weekly-day-toggle input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.weekly-toggle-mark {
+    position: relative;
+    width: 40px;
+    height: 23px;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: #ccd2c7;
+    transition: background .2s ease;
+}
+
+.weekly-toggle-mark::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
+    transition: transform .2s ease;
+}
+
+.weekly-day-toggle input:checked + .weekly-toggle-mark {
+    background: var(--green);
+}
+
+.weekly-day-toggle input:checked + .weekly-toggle-mark::after {
+    transform: translateX(17px);
+}
+
+.weekly-day-toggle strong {
+    font-size: .82rem;
+}
+
+.weekly-time-input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 11px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    outline: none;
+    color: var(--ink);
+    background: #ffffff;
+}
+
+.weekly-time-input:disabled {
+    color: #9ba19a;
+    background: #edf0eb;
+}
+
+.weekly-time-input:focus {
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 3px rgba(53, 87, 36, .1);
+}
+
+.weekly-schedule-form > .compact-button {
+    width: auto;
+    min-width: 240px;
+    margin: 18px 0 0 auto;
+}
+
+.upcoming-bookings-heading {
+    margin: 34px 0 15px;
+    padding-top: 28px;
+    border-top: 1px solid #e5e9e2;
+}
+
+.upcoming-bookings-heading h3 {
+    margin-top: 5px;
+    font-size: 1.15rem;
+}
+
+/* Student weekly booking calendar */
+.week-navigation {
+    margin: 20px 0 12px;
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+}
+
+.week-navigation strong {
+    color: var(--green);
+    text-align: center;
+    font-size: .82rem;
+}
+
+.week-navigation button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dce4d6;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--green);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.week-navigation button:hover:not(:disabled) {
+    border-color: var(--green-light);
+    background: #f5f9ef;
+}
+
+.week-navigation button:disabled {
+    cursor: not-allowed;
+    opacity: .35;
+}
+
+.weekly-booking-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(115px, 1fr));
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 2px 9px;
+    transition: opacity .2s ease;
+}
+
+.weekly-booking-calendar.loading-calendar {
+    opacity: .45;
+}
+
+.booking-day-card {
+    min-height: 155px;
+    overflow: hidden;
+    border: 1px solid #e3e9dd;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.booking-day-card header {
+    padding: 11px 9px;
+    display: grid;
+    gap: 2px;
+    border-bottom: 1px solid #e8ece5;
+    background: #f4f8ec;
+    text-align: center;
+}
+
+.booking-day-card header strong {
+    font-size: .7rem;
+}
+
+.booking-day-card header span {
+    color: var(--muted);
+    font-size: .62rem;
+}
+
+.booking-day-times {
+    padding: 8px;
+    display: grid;
+    gap: 6px;
+}
+
+.calendar-time-button {
+    width: 100%;
+    min-height: 34px;
+    padding: 5px 6px;
+    border: 1px solid #d8e2c9;
+    border-radius: 9px;
+    background: #faffed;
+    color: var(--green);
+    cursor: pointer;
+    font-size: .61rem;
+    font-weight: 700;
+}
+
+.calendar-time-button:hover:not(:disabled) {
+    border-color: var(--green);
+    background: var(--lime);
+}
+
+.calendar-time-button:disabled {
+    cursor: not-allowed;
+    opacity: .42;
+}
+
+.no-day-times {
+    padding: 18px 2px;
+    color: #9aa197;
+    text-align: center;
+    font-size: .62rem;
+}
+
+@media (max-width: 700px) {
+    .weekly-schedule-labels,
+    .weekly-day-row {
+        grid-template-columns: minmax(120px, 1fr) 88px 88px;
+        gap: 8px;
+    }
+
+    .weekly-schedule-labels {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .weekly-day-row {
+        padding: 11px 10px;
+    }
+
+    .weekly-day-toggle {
+        gap: 8px;
+    }
+
+    .weekly-day-toggle strong {
+        font-size: .72rem;
+    }
+
+    .weekly-time-input {
+        min-height: 40px;
+        padding: 0 5px;
+        font-size: .7rem;
+    }
+
+    .weekly-schedule-form > .compact-button {
+        width: 100%;
+        min-width: 0;
+    }
+}
