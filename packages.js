@@ -19,10 +19,10 @@
     );
 
     const packageIdMap = {
-        one: "package_1",
-        five: "package_5",
-        twenty: "package_20"
-    };
+    1: "package_1",
+    5: "package_5",
+    20: "package_20"
+};
 
     let client = null;
     let viewer = {
@@ -145,7 +145,8 @@
     }
 
     function renderPayPalButton(container, lessonPackage) {
-        const paypalPackageId = packageIdMap[lessonPackage.id];
+        const paypalPackageId =
+    packageIdMap[lessonPackage.lessons_count];
 
         if (!paypalPackageId) {
             container.textContent =
@@ -180,11 +181,22 @@
                 );
 
                 if (error) {
-                    console.error("Create order error:", error);
-                    throw new Error(
-                        error.message || "PayPal order could not be created."
-                    );
-                }
+    console.error("Create order error:", error);
+
+    let message = error.message || "PayPal order could not be created.";
+
+    if (error.context) {
+        try {
+            const errorBody = await error.context.json();
+            console.error("Edge Function response:", errorBody);
+            message = errorBody.error || message;
+        } catch (contextError) {
+            console.error("Could not read function error:", contextError);
+        }
+    }
+
+    throw new Error(message);
+}
 
                 if (!data?.orderId) {
                     console.error("Invalid create-order response:", data);

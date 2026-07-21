@@ -13,15 +13,15 @@ type PackageDetails = {
 const packages: Record<string, PackageDetails> = {
   package_1: {
     lessons: 1,
-    price: "1.00",
+    price: "6.00",
   },
   package_5: {
     lessons: 5,
-    price: "2.00",
+    price: "30.00",
   },
   package_20: {
     lessons: 20,
-    price: "3.00",
+    price: "120.00",
   },
 };
 

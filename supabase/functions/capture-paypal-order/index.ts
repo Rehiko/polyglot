@@ -16,17 +16,17 @@ type PackageDetails = {
 const packages: Record<string, PackageDetails> = {
   package_1: {
     lessons: 1,
-    testAmount: "1.00",
+    testAmount: "6.00",
     currency: "EUR",
   },
   package_5: {
     lessons: 5,
-    testAmount: "2.00",
+    testAmount: "30.00",
     currency: "EUR",
   },
   package_20: {
     lessons: 20,
-    testAmount: "3.00",
+    testAmount: "120.00",
     currency: "EUR",
   },
 };
