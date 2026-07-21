@@ -25,7 +25,7 @@
         <section class="packages-hero">
             <span class="packages-eyebrow">Lesson balance</span>
             <h1>Choose your lesson package</h1>
-            <p>Pay securely in Ukrainian hryvnia. Lessons are added to your balance after Stripe confirms the payment.</p>
+            <p>Pay securely with PayPal. Lessons are added to your balance after the payment is confirmed.</p>
         </section>
 
         <section class="balance-banner">
@@ -42,14 +42,15 @@
         <section class="payment-security-note">
             <span aria-hidden="true">✓</span>
             <div>
-                <strong>Secure payment with Stripe</strong>
-                <p>Polyglot never stores your card number. Your lesson balance changes only after a verified payment.</p>
+                <strong>Secure payment with PayPal</strong>
+                <p>Polyglot never stores your PayPal password or payment details. Lessons are added only after PayPal confirms the payment.</p>
             </div>
         </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AVDX8Z7jIfRNvVjnBBbM9T8oMyC1vw5lZcvwvawy7hv-ZI_SWNKN4Twbg74WcdpEzPgucoqZhUFbx6ACY&currency=EUR&intent=capture"></script>
     <script src="packages.js"></script>
 </body>
 

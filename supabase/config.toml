@@ -1,2 +1,24 @@
 [functions.stripe-webhook]
 verify_jwt = false
+
+[functions.create-paypal-order]
+enabled = true
+verify_jwt = false
+import_map = "./functions/create-paypal-order/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/create-paypal-order/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/create-paypal-order/*.html" ]
+
+[functions.capture-paypal-order]
+enabled = true
+verify_jwt = false
+import_map = "./functions/capture-paypal-order/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/capture-paypal-order/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/capture-paypal-order/*.html" ]
