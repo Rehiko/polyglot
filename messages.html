@@ -93,6 +93,43 @@
                     ></div>
 
                     <form id="messageForm" class="message-form">
+                        <div
+                            id="selectedFilePreview"
+                            class="selected-file-preview"
+                            hidden
+                        >
+                            <span class="selected-file-icon" aria-hidden="true">
+                                ↥
+                            </span>
+
+                            <span id="selectedFileName"></span>
+
+                            <button
+                                id="removeSelectedFileButton"
+                                type="button"
+                                aria-label="Remove selected file"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <input
+                            id="fileInput"
+                            class="sr-only"
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.txt"
+                        >
+
+                        <button
+                            id="attachFileButton"
+                            type="button"
+                            class="attach-file-button"
+                            aria-label="Attach homework or a file"
+                            title="Attach a file (maximum 10 MB)"
+                        >
+                            <span aria-hidden="true">＋</span>
+                        </button>
+
                         <label class="sr-only" for="messageInput">
                             Write a message
                         </label>
@@ -101,8 +138,7 @@
                             id="messageInput"
                             rows="1"
                             maxlength="4000"
-                            placeholder="Write a message..."
-                            required
+                            placeholder="Write a message or attach homework..."
                         ></textarea>
 
                         <button

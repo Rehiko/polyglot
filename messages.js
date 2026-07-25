@@ -3,39 +3,25 @@
 
     const chatMessage = document.getElementById("chatMessage");
     const chatContent = document.getElementById("chatContent");
-
-    const conversationList =
-        document.getElementById("conversationList");
-
+    const conversationList = document.getElementById("conversationList");
     const emptyChat = document.getElementById("emptyChat");
     const activeChat = document.getElementById("activeChat");
+    const chatUserInitial = document.getElementById("chatUserInitial");
+    const chatUserName = document.getElementById("chatUserName");
+    const chatUserRole = document.getElementById("chatUserRole");
+    const messageList = document.getElementById("messageList");
+    const messageForm = document.getElementById("messageForm");
+    const messageInput = document.getElementById("messageInput");
+    const sendMessageButton = document.getElementById("sendMessageButton");
+    const attachFileButton = document.getElementById("attachFileButton");
+    const fileInput = document.getElementById("fileInput");
+    const selectedFilePreview = document.getElementById("selectedFilePreview");
+    const selectedFileName = document.getElementById("selectedFileName");
+    const removeSelectedFileButton =
+        document.getElementById("removeSelectedFileButton");
 
-    const chatUserInitial =
-        document.getElementById("chatUserInitial");
-
-    const chatUserName =
-        document.getElementById("chatUserName");
-
-    const chatUserRole =
-        document.getElementById("chatUserRole");
-
-    const messageList =
-        document.getElementById("messageList");
-
-    const messageForm =
-        document.getElementById("messageForm");
-
-    const messageInput =
-        document.getElementById("messageInput");
-
-    const sendMessageButton =
-        document.getElementById("sendMessageButton");
-
-    const supabaseUrl =
-        window.POLYGLOT_SUPABASE_URL;
-
-    const supabaseKey =
-        window.POLYGLOT_SUPABASE_KEY;
+    const supabaseUrl = window.POLYGLOT_SUPABASE_URL;
+    const supabaseKey = window.POLYGLOT_SUPABASE_KEY;
 
     const configIsReady = Boolean(
         supabaseUrl &&
@@ -51,18 +37,29 @@
     let activeConversation = null;
     let realtimeChannel = null;
     let bookingStates = new Map();
+    let selectedFile = null;
 
     const renderedMessageIds = new Set();
+    const maximumFileSize = 10 * 1024 * 1024;
+
+    const allowedFileTypes = new Map([
+        ["jpg", "image/jpeg"],
+        ["jpeg", "image/jpeg"],
+        ["png", "image/png"],
+        ["webp", "image/webp"],
+        ["gif", "image/gif"],
+        ["pdf", "application/pdf"],
+        ["doc", "application/msword"],
+        [
+            "docx",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ],
+        ["txt", "text/plain"]
+    ]);
 
     function showChatError(text) {
         chatMessage.textContent = text;
         chatMessage.className = "notice error";
-        chatMessage.hidden = false;
-    }
-
-    function showChatNotice(text) {
-        chatMessage.textContent = text;
-        chatMessage.className = "notice success";
         chatMessage.hidden = false;
     }
 
@@ -72,7 +69,6 @@
 
     function capitalize(value) {
         if (!value) return "User";
-
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
@@ -120,7 +116,69 @@
             return "Google Meet link";
         }
 
+        if (conversation.last_message_type === "file") {
+            return `Attachment: ${conversation.last_message}`;
+        }
+
         return conversation.last_message;
+    }
+
+    function fileExtension(fileName) {
+        return (fileName.split(".").pop() || "")
+            .trim()
+            .toLowerCase();
+    }
+
+    function formatFileSize(size) {
+        if (size < 1024) {
+            return `${size} B`;
+        }
+
+        if (size < 1024 * 1024) {
+            return `${(size / 1024).toFixed(1)} KB`;
+        }
+
+        return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function validateFile(file) {
+        if (!file) {
+            return "Choose a file first.";
+        }
+
+        if (!allowedFileTypes.has(fileExtension(file.name))) {
+            return "Only JPG, PNG, WEBP, GIF, PDF, DOC, DOCX and TXT files are allowed.";
+        }
+
+        if (file.size > maximumFileSize) {
+            return "The selected file is larger than 10 MB.";
+        }
+
+        return "";
+    }
+
+    function safeStorageFileName(fileName) {
+        const cleaned = fileName
+            .normalize("NFKC")
+            .replace(/[^\p{L}\p{N}._-]+/gu, "_")
+            .replace(/^[_\-.]+/, "")
+            .slice(-120);
+
+        return cleaned || "attachment";
+    }
+
+    function resetSelectedFile() {
+        selectedFile = null;
+        fileInput.value = "";
+        selectedFileName.textContent = "";
+        selectedFilePreview.hidden = true;
+    }
+
+    function showSelectedFile(file) {
+        selectedFile = file;
+        selectedFileName.textContent =
+            `${file.name} · ${formatFileSize(file.size)}`;
+        selectedFilePreview.hidden = false;
     }
 
     function createConversationButton(conversation) {
@@ -159,8 +217,7 @@
 
         const preview = document.createElement("span");
         preview.className = "conversation-preview";
-        preview.textContent =
-            conversationPreview(conversation);
+        preview.textContent = conversationPreview(conversation);
 
         information.append(topRow, preview);
         button.append(avatar, information);
@@ -178,7 +235,6 @@
         if (!conversations.length) {
             const empty = document.createElement("p");
             empty.className = "empty-conversation-list";
-
             empty.textContent =
                 "A conversation will appear after a lesson is booked.";
 
@@ -208,9 +264,11 @@
 
     function createSystemMessage(message) {
         const item = document.createElement("article");
+
         const bookingState = message.booking_id
             ? bookingStates.get(message.booking_id)
             : null;
+
         const meetingWasCancelled =
             message.message_type === "meeting" &&
             bookingState?.status === "cancelled";
@@ -273,7 +331,115 @@
         return item;
     }
 
+    async function downloadChatFile(message, button) {
+        if (!message.file_path) {
+            showChatError("This attachment is not available.");
+            return;
+        }
+
+        const originalText = button.textContent;
+
+        button.disabled = true;
+        button.textContent = "Downloading...";
+
+        const { data, error } = await client.storage
+            .from("chat-files")
+            .download(message.file_path);
+
+        button.disabled = false;
+        button.textContent = originalText;
+
+        if (error || !data) {
+            showChatError(
+                `The attachment could not be downloaded: ${
+                    error?.message || "Unknown error"
+                }`
+            );
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(data);
+        const link = document.createElement("a");
+
+        link.href = objectUrl;
+        link.download =
+            message.message_text || "attachment";
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        window.setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+        }, 1000);
+    }
+
+    function createFileMessage(message) {
+        const isOwnMessage =
+            message.sender_id === currentUser.id;
+
+        const row = document.createElement("div");
+
+        row.className = isOwnMessage
+            ? "message-row own"
+            : "message-row received";
+
+        const bubble = document.createElement("article");
+        bubble.className = "file-message-bubble";
+
+        const icon = document.createElement("span");
+        icon.className = "file-message-icon";
+        icon.textContent = "↧";
+        icon.setAttribute("aria-hidden", "true");
+
+        const details = document.createElement("div");
+        details.className = "file-message-details";
+
+        const name = document.createElement("strong");
+        name.textContent =
+            message.message_text || "Attachment";
+
+        const description = document.createElement("span");
+        description.textContent = "Chat attachment";
+
+        details.append(name, description);
+
+        const downloadButton =
+            document.createElement("button");
+
+        downloadButton.type = "button";
+        downloadButton.className =
+            "file-download-button";
+        downloadButton.textContent = "Download";
+
+        downloadButton.addEventListener("click", () => {
+            downloadChatFile(
+                message,
+                downloadButton
+            );
+        });
+
+        const time = document.createElement("small");
+        time.textContent = formatMessageTime(
+            message.created_at
+        );
+
+        bubble.append(
+            icon,
+            details,
+            downloadButton,
+            time
+        );
+
+        row.appendChild(bubble);
+        return row;
+    }
+
     function createUserMessage(message) {
+        if (message.message_type === "file") {
+            return createFileMessage(message);
+        }
+
         const isOwnMessage =
             message.sender_id === currentUser.id;
 
@@ -319,9 +485,7 @@
             : createUserMessage(message);
 
         messageList.appendChild(element);
-
-        messageList.scrollTop =
-            messageList.scrollHeight;
+        messageList.scrollTop = messageList.scrollHeight;
     }
 
     async function loadMessages(conversationId) {
@@ -352,14 +516,12 @@
             showChatError(
                 `Messages could not be loaded: ${error.message}`
             );
-
             return;
         }
 
         if (!data?.length) {
             const empty = document.createElement("p");
             empty.className = "loading-messages";
-
             empty.textContent =
                 "No messages yet. Start the conversation.";
 
@@ -418,7 +580,7 @@
                     filter:
                         `conversation_id=eq.${conversationId}`
                 },
-                async (payload) => {
+                async () => {
                     const empty =
                         messageList.querySelector(
                             ".loading-messages"
@@ -427,7 +589,6 @@
                     empty?.remove();
 
                     await loadMessages(conversationId);
-
                     await loadConversations(false);
                 }
             )
@@ -436,7 +597,7 @@
 
     async function selectConversation(conversation) {
         activeConversation = conversation;
-
+        resetSelectedFile();
         renderConversations();
 
         chatUserInitial.textContent =
@@ -486,7 +647,6 @@
             showChatError(
                 `Conversations could not be loaded: ${error.message}`
             );
-
             return false;
         }
 
@@ -548,39 +708,122 @@
         const messageText =
             messageInput.value.trim();
 
-        if (!messageText) return;
+        const fileToSend = selectedFile;
+
+        if (!messageText && !fileToSend) {
+            return;
+        }
+
+        if (fileToSend) {
+            const validationError =
+                validateFile(fileToSend);
+
+            if (validationError) {
+                showChatError(validationError);
+                return;
+            }
+        }
 
         sendMessageButton.disabled = true;
-        sendMessageButton.textContent = "Sending...";
+        attachFileButton.disabled = true;
 
-        const { data, error } = await client
-            .from("conversation_messages")
-            .insert({
+        sendMessageButton.textContent = fileToSend
+            ? "Uploading..."
+            : "Sending...";
+
+        let uploadedFilePath = "";
+
+        if (fileToSend) {
+            const extension =
+                fileExtension(fileToSend.name);
+
+            const storageName =
+                safeStorageFileName(fileToSend.name);
+
+            uploadedFilePath = [
+                activeConversation.conversation_id,
+                currentUser.id,
+                `${crypto.randomUUID()}-${storageName}`
+            ].join("/");
+
+            const { error: uploadError } =
+                await client.storage
+                    .from("chat-files")
+                    .upload(
+                        uploadedFilePath,
+                        fileToSend,
+                        {
+                            cacheControl: "3600",
+                            contentType:
+                                allowedFileTypes.get(
+                                    extension
+                                ),
+                            upsert: false
+                        }
+                    );
+
+            if (uploadError) {
+                sendMessageButton.disabled = false;
+                attachFileButton.disabled = false;
+                sendMessageButton.textContent = "Send";
+
+                showChatError(
+                    `The attachment could not be uploaded: ${uploadError.message}`
+                );
+                return;
+            }
+        }
+
+        const messagesToInsert = [];
+
+        if (messageText) {
+            messagesToInsert.push({
                 conversation_id:
                     activeConversation.conversation_id,
-
                 sender_id: currentUser.id,
                 message_type: "text",
                 message_text: messageText
-            })
+            });
+        }
+
+        if (fileToSend) {
+            messagesToInsert.push({
+                conversation_id:
+                    activeConversation.conversation_id,
+                sender_id: currentUser.id,
+                message_type: "file",
+                message_text: fileToSend.name,
+                file_path: uploadedFilePath
+            });
+        }
+
+        const { data, error } = await client
+            .from("conversation_messages")
+            .insert(messagesToInsert)
             .select(
                 "id, conversation_id, sender_id, message_type, message_text, file_path, booking_id, created_at"
-            )
-            .single();
+            );
 
         sendMessageButton.disabled = false;
+        attachFileButton.disabled = false;
         sendMessageButton.textContent = "Send";
 
         if (error) {
+            if (uploadedFilePath) {
+                await client.storage
+                    .from("chat-files")
+                    .remove([uploadedFilePath]);
+            }
+
             showChatError(
                 `Message could not be sent: ${error.message}`
             );
-
             return;
         }
 
         messageInput.value = "";
         messageInput.style.height = "auto";
+        resetSelectedFile();
 
         const empty =
             messageList.querySelector(
@@ -589,7 +832,7 @@
 
         empty?.remove();
 
-        appendMessage(data);
+        (data || []).forEach(appendMessage);
 
         await loadConversations(false);
     }
@@ -604,12 +847,10 @@
             window.location.replace(
                 "login.html#login"
             );
-
             return;
         }
 
         currentUser = userData.user;
-
         await loadConversations();
     }
 
@@ -624,6 +865,35 @@
         messageInput.style.height =
             `${Math.min(messageInput.scrollHeight, 150)}px`;
     });
+
+    attachFileButton.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files?.[0];
+
+        if (!file) {
+            resetSelectedFile();
+            return;
+        }
+
+        const validationError = validateFile(file);
+
+        if (validationError) {
+            resetSelectedFile();
+            showChatError(validationError);
+            return;
+        }
+
+        hideChatNotice();
+        showSelectedFile(file);
+    });
+
+    removeSelectedFileButton.addEventListener(
+        "click",
+        resetSelectedFile
+    );
 
     document
         .getElementById("logoutButton")
@@ -651,7 +921,6 @@
         showChatError(
             "Add your Supabase URL and publishable key to supabase-config.js."
         );
-
         return;
     }
 

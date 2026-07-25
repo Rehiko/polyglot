@@ -275,6 +275,96 @@
     opacity: 0.7;
 }
 
+.file-message-bubble {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 11px;
+    width: min(520px, 78%);
+    padding: 12px;
+    border-radius: 17px;
+    box-shadow: 0 5px 16px rgba(25, 62, 47, 0.06);
+}
+
+.message-row.own .file-message-bubble {
+    color: #ffffff;
+    background: #1d4217;
+    border-bottom-right-radius: 5px;
+}
+
+.message-row.received .file-message-bubble {
+    color: #293b34;
+    background: #ffffff;
+    border: 1px solid #e1e7e3;
+    border-bottom-left-radius: 5px;
+}
+
+.file-message-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    color: #173e30;
+    background: #dcef60;
+    border-radius: 13px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.file-message-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.file-message-details strong {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-message-details span {
+    font-size: 10px;
+    opacity: 0.72;
+}
+
+.file-download-button {
+    padding: 8px 11px;
+    color: #173e30;
+    background: #ffffff;
+    border: 1px solid rgba(23, 62, 48, 0.14);
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.message-row.received .file-download-button {
+    color: #ffffff;
+    background: #1d4217;
+}
+
+.file-download-button:hover {
+    transform: translateY(-1px);
+}
+
+.file-download-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.file-message-bubble small {
+    grid-column: 2 / -1;
+    font-size: 9px;
+    text-align: right;
+    opacity: 0.65;
+}
+
 .system-message {
     align-self: center;
     display: flex;
@@ -335,12 +425,95 @@
 
 .message-form {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: end;
-    gap: 12px;
+    gap: 10px;
     padding: 16px 20px;
     background: #ffffff;
     border-top: 1px solid #dfe6e1;
+}
+
+.selected-file-preview {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 11px;
+    color: #294439;
+    background: #f1f6e6;
+    border: 1px solid #dce9ab;
+    border-radius: 13px;
+    font-size: 11px;
+}
+
+.selected-file-preview[hidden] {
+    display: none;
+}
+
+.selected-file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    color: #173e30;
+    background: #dcef60;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+#selectedFileName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#removeSelectedFileButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    color: #7c423c;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+#removeSelectedFileButton:hover {
+    background: rgba(166, 66, 56, 0.1);
+}
+
+.attach-file-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    color: #173e30;
+    background: #edf3ed;
+    border: 1px solid #dce3de;
+    border-radius: 15px;
+    font-family: "Poppins", sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.attach-file-button:hover {
+    color: #ffffff;
+    background: #2a5a22;
+}
+
+.attach-file-button:disabled {
+    color: #89938e;
+    background: #dfe4e1;
+    cursor: wait;
 }
 
 .message-form textarea {
@@ -439,17 +612,43 @@
         padding: 16px 12px;
     }
 
-    .message-bubble {
-        max-width: 85%;
+    .message-bubble,
+    .file-message-bubble {
+        max-width: 88%;
+        width: auto;
+    }
+
+    .file-message-bubble {
+        grid-template-columns: 38px minmax(0, 1fr);
+    }
+
+    .file-message-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .file-download-button {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .file-message-bubble small {
+        grid-column: 2;
     }
 
     .message-form {
-        gap: 8px;
+        gap: 7px;
         padding: 12px;
     }
 
+    .attach-file-button {
+        width: 43px;
+        height: 43px;
+    }
+
     .send-message-button {
-        padding: 11px 15px;
+        min-height: 43px;
+        padding: 10px 14px;
     }
 
     .system-message {
