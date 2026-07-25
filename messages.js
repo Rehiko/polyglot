@@ -50,6 +50,7 @@
     let conversations = [];
     let activeConversation = null;
     let realtimeChannel = null;
+    let bookingStates = new Map();
 
     const renderedMessageIds = new Set();
 
@@ -207,21 +208,46 @@
 
     function createSystemMessage(message) {
         const item = document.createElement("article");
+        const bookingState = message.booking_id
+            ? bookingStates.get(message.booking_id)
+            : null;
+        const meetingWasCancelled =
+            message.message_type === "meeting" &&
+            bookingState?.status === "cancelled";
 
         item.className =
-            message.message_type === "meeting"
+            message.message_type === "meeting" &&
+            !meetingWasCancelled
                 ? "meeting-message"
                 : "system-message";
 
+        if (meetingWasCancelled) {
+            const text = document.createElement("span");
+            text.textContent =
+                "Lesson cancelled. The Google Meet link is no longer active.";
+
+            const time = document.createElement("small");
+            time.textContent = formatMessageTime(
+                message.created_at
+            );
+
+            item.append(text, time);
+            return item;
+        }
+
+        const meetingUrl =
+            bookingState?.meeting_url ||
+            message.message_text;
+
         if (
             message.message_type === "meeting" &&
-            isSafeMeetUrl(message.message_text)
+            isSafeMeetUrl(meetingUrl)
         ) {
             const label = document.createElement("span");
             label.textContent = "Google Meet is ready";
 
             const link = document.createElement("a");
-            link.href = message.message_text;
+            link.href = meetingUrl;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
             link.textContent = "Join Google Meet →";
@@ -300,6 +326,7 @@
 
     async function loadMessages(conversationId) {
         renderedMessageIds.clear();
+        bookingStates = new Map();
         messageList.replaceChildren();
 
         const loading = document.createElement("p");
@@ -340,6 +367,37 @@
             return;
         }
 
+        const bookingIds = [
+            ...new Set(
+                data
+                    .map((message) => message.booking_id)
+                    .filter(Boolean)
+            )
+        ];
+
+        if (bookingIds.length) {
+            const {
+                data: bookings,
+                error: bookingsError
+            } = await client
+                .from("lesson_bookings")
+                .select("id, status, meeting_url")
+                .in("id", bookingIds);
+
+            if (bookingsError) {
+                showChatError(
+                    `Lesson statuses could not be loaded: ${bookingsError.message}`
+                );
+            } else {
+                bookingStates = new Map(
+                    (bookings || []).map((booking) => [
+                        booking.id,
+                        booking
+                    ])
+                );
+            }
+        }
+
         data.forEach(appendMessage);
     }
 
@@ -368,7 +426,7 @@
 
                     empty?.remove();
 
-                    appendMessage(payload.new);
+                    await loadMessages(conversationId);
 
                     await loadConversations(false);
                 }
