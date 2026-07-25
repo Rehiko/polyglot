@@ -97,6 +97,76 @@
         return `${startText} – ${endText}`;
     }
 
+    function delay(milliseconds) {
+        return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+    }
+
+    function showBookingSuccess(text, meetingUrl = null) {
+        bookingMessage.replaceChildren();
+        bookingMessage.className = "notice success";
+        bookingMessage.hidden = false;
+
+        const messageText = document.createElement("span");
+        messageText.textContent = text;
+        bookingMessage.appendChild(messageText);
+
+        if (
+            typeof meetingUrl === "string" &&
+            meetingUrl.startsWith("https://meet.google.com/")
+        ) {
+            const separator = document.createTextNode(" ");
+            const meetingLink = document.createElement("a");
+            meetingLink.href = meetingUrl;
+            meetingLink.target = "_blank";
+            meetingLink.rel = "noopener noreferrer";
+            meetingLink.textContent = "Open Google Meet →";
+            bookingMessage.append(separator, meetingLink);
+        }
+    }
+
+    async function findBookingForSlot(slotId) {
+        const { data, error } = await client
+            .from("lesson_bookings")
+            .select("id")
+            .eq("slot_id", slotId)
+            .eq("student_id", viewer.user.id)
+            .eq("status", "scheduled")
+            .maybeSingle();
+
+        if (error || !data?.id) {
+            return null;
+        }
+
+        return data.id;
+    }
+
+    async function createGoogleMeet(bookingId) {
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+            const { data, error } = await client.functions.invoke(
+                "create-google-meet",
+                {
+                    body: {
+                        booking_id: bookingId
+                    }
+                }
+            );
+
+            if (
+                !error &&
+                typeof data?.meeting_url === "string" &&
+                data.meeting_url.startsWith("https://meet.google.com/")
+            ) {
+                return data.meeting_url;
+            }
+
+            if (attempt === 0) {
+                await delay(2000);
+            }
+        }
+
+        return null;
+    }
+
     function updateAccountStatus() {
         buyLessonsLink.hidden = true;
         if (!viewer.user) {
@@ -178,10 +248,26 @@
             day: "numeric",
             month: "long"
         }).format(new Date(slot.starts_at));
-        showBookingMessage(
-            `Lesson booked for ${lessonDate} at ${formatTime(slot.starts_at)}. It is now in your dashboard.`,
-            "success"
-        );
+
+        button.textContent = "Creating Google Meet...";
+
+        const bookingId = await findBookingForSlot(slot.id);
+        const meetingUrl = bookingId
+            ? await createGoogleMeet(bookingId)
+            : null;
+
+        if (meetingUrl) {
+            showBookingSuccess(
+                `Lesson booked for ${lessonDate} at ${formatTime(slot.starts_at)}. The Google Meet invitation has been emailed to you and your teacher.`,
+                meetingUrl
+            );
+        } else {
+            showBookingMessage(
+                `Lesson booked for ${lessonDate} at ${formatTime(slot.starts_at)}. Google Meet is still being prepared; the lesson remains confirmed.`,
+                "warning"
+            );
+        }
+
         await loadWeekAvailability();
     }
 
