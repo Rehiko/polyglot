@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin dashboard | Polyglot</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="booking.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="simple-page admin-page">
+
+    <header class="simple-header dashboard-header admin-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+
+        <nav class="dashboard-nav" aria-label="Admin dashboard">
+            <a class="active" href="#overview">Overview</a>
+            <a href="#teachers">Teachers</a>
+            <a href="#users">Users</a>
+            <a href="#payments">Payments</a>
+            <a href="#bookings">Bookings</a>
+        </nav>
+
+        <button id="logoutButton" class="logout-button" type="button">
+            Log out
+        </button>
+    </header>
+
+    <main id="overview" class="dashboard-main admin-main">
+
+        <div id="adminMessage" class="notice warning">
+            Checking administrator access...
+        </div>
+
+        <section id="adminContent" hidden>
+
+            <div class="welcome-card admin-welcome">
+                <div>
+                    <span class="dashboard-eyebrow">
+                        Administration
+                    </span>
+
+                    <h1>
+                        Welcome, <span id="adminName">administrator</span>!
+                    </h1>
+
+                    <p id="adminEmail"></p>
+                </div>
+
+                <span class="admin-access-badge">
+                    Admin access
+                </span>
+            </div>
+
+            <section class="admin-stat-grid">
+
+                <article class="admin-stat-card">
+                    <span>Students</span>
+                    <strong id="adminStudentCount">0</strong>
+                </article>
+
+                <article class="admin-stat-card">
+                    <span>Teachers</span>
+                    <strong id="adminTeacherCount">0</strong>
+                </article>
+
+                <article class="admin-stat-card attention">
+                    <span>Pending teachers</span>
+                    <strong id="adminPendingCount">0</strong>
+                </article>
+
+                <article class="admin-stat-card">
+                    <span>Payments</span>
+                    <strong id="adminPaymentCount">0</strong>
+                </article>
+
+                <article class="admin-stat-card">
+                    <span>Bookings</span>
+                    <strong id="adminBookingCount">0</strong>
+                </article>
+
+            </section>
+
+            <section id="teachers" class="admin-section">
+                <div class="admin-section-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">
+                            Teacher management
+                        </span>
+
+                        <h2>Teacher applications</h2>
+
+                        <p>
+                            Review, approve or reject teacher profiles.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="adminTeacherList" class="admin-list">
+                    <p class="admin-empty-message">
+                        Loading teacher applications...
+                    </p>
+                </div>
+            </section>
+
+            <section id="users" class="admin-section">
+                <div class="admin-section-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">
+                            Accounts
+                        </span>
+
+                        <h2>Students and teachers</h2>
+
+                        <p>
+                            View registered Polyglot accounts.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="adminUserList" class="admin-table-wrapper">
+                    <p class="admin-empty-message">
+                        Loading users...
+                    </p>
+                </div>
+            </section>
+
+            <section id="payments" class="admin-section">
+                <div class="admin-section-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">
+                            Payments
+                        </span>
+
+                        <h2>Recent package purchases</h2>
+
+                        <p>
+                            View confirmed PayPal purchases and lessons added.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="adminPaymentList" class="admin-table-wrapper">
+                    <p class="admin-empty-message">
+                        Loading payments...
+                    </p>
+                </div>
+            </section>
+
+            <section id="bookings" class="admin-section">
+                <div class="admin-section-heading">
+                    <div>
+                        <span class="dashboard-eyebrow">
+                            Lessons
+                        </span>
+
+                        <h2>Recent bookings</h2>
+
+                        <p>
+                            View scheduled, completed and cancelled lessons.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="adminBookingList" class="admin-table-wrapper">
+                    <p class="admin-empty-message">
+                        Loading bookings...
+                    </p>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="admin-dashboard.js"></script>
+
+</body>
+
+</html>

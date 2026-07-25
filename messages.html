@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Messages | Polyglot</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="messages.css">
+</head>
+
+<body class="simple-page messages-page">
+
+    <header class="simple-header dashboard-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+
+        <nav class="dashboard-nav" aria-label="Messages navigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="teachers.html">Teachers</a>
+            <a class="active" href="messages.html">Messages</a>
+        </nav>
+
+        <button id="logoutButton" class="logout-button" type="button">
+            Log out
+        </button>
+    </header>
+
+    <main class="messages-main">
+
+        <div id="chatMessage" class="notice warning">
+            Loading your conversations...
+        </div>
+
+        <section id="chatContent" class="chat-shell" hidden>
+
+            <aside class="chat-sidebar">
+                <div class="chat-sidebar-heading">
+                    <span class="dashboard-eyebrow">Polyglot chat</span>
+                    <h1>Messages</h1>
+                </div>
+
+                <div
+                    id="conversationList"
+                    class="conversation-list"
+                ></div>
+            </aside>
+
+            <section class="chat-window">
+
+                <div id="emptyChat" class="empty-chat">
+                    <div class="empty-chat-icon" aria-hidden="true">
+                        ✦
+                    </div>
+
+                    <h2>Select a conversation</h2>
+
+                    <p>
+                        Your conversations with booked students
+                        or teachers will appear here.
+                    </p>
+                </div>
+
+                <div id="activeChat" class="active-chat" hidden>
+
+                    <header class="active-chat-header">
+                        <div class="chat-user-avatar">
+                            <span id="chatUserInitial">P</span>
+                        </div>
+
+                        <div>
+                            <strong id="chatUserName">
+                                Polyglot user
+                            </strong>
+
+                            <span id="chatUserRole">
+                                Conversation
+                            </span>
+                        </div>
+                    </header>
+
+                    <div
+                        id="messageList"
+                        class="message-list"
+                        aria-live="polite"
+                    ></div>
+
+                    <form id="messageForm" class="message-form">
+                        <label class="sr-only" for="messageInput">
+                            Write a message
+                        </label>
+
+                        <textarea
+                            id="messageInput"
+                            rows="1"
+                            maxlength="4000"
+                            placeholder="Write a message..."
+                            required
+                        ></textarea>
+
+                        <button
+                            id="sendMessageButton"
+                            type="submit"
+                            class="send-message-button"
+                        >
+                            Send
+                        </button>
+                    </form>
+
+                </div>
+
+            </section>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="messages.js"></script>
+
+</body>
+
+</html>
