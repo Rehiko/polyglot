@@ -171,13 +171,25 @@
         selectedFile = null;
         fileInput.value = "";
         selectedFileName.textContent = "";
+        selectedFilePreview.classList.remove("error");
         selectedFilePreview.hidden = true;
+    }
+
+    function showFileValidationError(text) {
+        selectedFile = null;
+        fileInput.value = "";
+        selectedFileName.textContent = text;
+        selectedFilePreview.classList.add("error");
+        selectedFilePreview.hidden = false;
     }
 
     function showSelectedFile(file) {
         selectedFile = file;
+        selectedFilePreview.classList.remove("error");
+
         selectedFileName.textContent =
             `${file.name} · ${formatFileSize(file.size)}`;
+
         selectedFilePreview.hidden = false;
     }
 
@@ -485,7 +497,8 @@
             : createUserMessage(message);
 
         messageList.appendChild(element);
-        messageList.scrollTop = messageList.scrollHeight;
+        messageList.scrollTop =
+            messageList.scrollHeight;
     }
 
     async function loadMessages(conversationId) {
@@ -719,7 +732,7 @@
                 validateFile(fileToSend);
 
             if (validationError) {
-                showChatError(validationError);
+                showFileValidationError(validationError);
                 return;
             }
         }
@@ -863,7 +876,10 @@
         messageInput.style.height = "auto";
 
         messageInput.style.height =
-            `${Math.min(messageInput.scrollHeight, 150)}px`;
+            `${Math.min(
+                messageInput.scrollHeight,
+                150
+            )}px`;
     });
 
     attachFileButton.addEventListener("click", () => {
@@ -881,8 +897,7 @@
         const validationError = validateFile(file);
 
         if (validationError) {
-            resetSelectedFile();
-            showChatError(validationError);
+            showFileValidationError(validationError);
             return;
         }
 
