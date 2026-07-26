@@ -22,6 +22,8 @@
         document.getElementById("materialStudent");
     const materialType = document.getElementById("materialType");
     const materialFile = document.getElementById("materialFile");
+    const materialFileSelection =
+        document.getElementById("materialFileSelection");
     const materialLink = document.getElementById("materialLink");
     const materialFileField =
         document.getElementById("materialFileField");
@@ -61,6 +63,7 @@
     );
 
     const maximumFileSize = 25 * 1024 * 1024;
+    const maximumMaterialFiles = 10;
     const allowedFileTypes = new Map([
         ["jpg", "image/jpeg"],
         ["jpeg", "image/jpeg"],
@@ -92,6 +95,7 @@
     let homeworkAssignments = [];
     let homeworkSubmissions = new Map();
     let profileNames = new Map();
+    let selectedMaterialFiles = [];
 
     function showPageError(text) {
         pageMessage.textContent = text;
@@ -154,6 +158,119 @@
         }
 
         return "";
+    }
+
+    function validateMaterialFiles(files) {
+        if (!files.length) return "Choose at least one file.";
+
+        if (files.length > maximumMaterialFiles) {
+            return `Choose no more than ${maximumMaterialFiles} files at once.`;
+        }
+
+        for (const file of files) {
+            const error = validateFile(file);
+
+            if (error) {
+                return `${file.name}: ${error}`;
+            }
+        }
+
+        return "";
+    }
+
+    function materialFileKey(file) {
+        return [
+            file.name,
+            file.size,
+            file.lastModified
+        ].join(":");
+    }
+
+    function renderSelectedMaterialFiles() {
+        materialFileSelection.replaceChildren();
+        materialFileSelection.hidden =
+            selectedMaterialFiles.length === 0;
+
+        if (!selectedMaterialFiles.length) return;
+
+        const heading = document.createElement("div");
+        heading.className = "material-file-selection-heading";
+
+        const title = document.createElement("span");
+        title.textContent = "Selected files";
+
+        const count = document.createElement("span");
+        count.textContent =
+            `${selectedMaterialFiles.length}/${maximumMaterialFiles}`;
+
+        heading.append(title, count);
+        materialFileSelection.appendChild(heading);
+
+        selectedMaterialFiles.forEach((file) => {
+            const row = document.createElement("div");
+            row.className = "selected-material-file";
+
+            const name = document.createElement("span");
+            name.textContent = file.name;
+            name.title = file.name;
+
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", () => {
+                const key = materialFileKey(file);
+                selectedMaterialFiles =
+                    selectedMaterialFiles.filter(
+                        (selectedFile) =>
+                            materialFileKey(selectedFile) !== key
+                    );
+                renderSelectedMaterialFiles();
+            });
+
+            row.append(name, removeButton);
+            materialFileSelection.appendChild(row);
+        });
+    }
+
+    function addSelectedMaterialFiles(files) {
+        hideInlineMessage(materialFormMessage);
+
+        const knownKeys = new Set(
+            selectedMaterialFiles.map(materialFileKey)
+        );
+
+        for (const file of files) {
+            const fileError = validateFile(file);
+
+            if (fileError) {
+                showInlineMessage(
+                    materialFormMessage,
+                    `${file.name}: ${fileError}`,
+                    true
+                );
+                continue;
+            }
+
+            const key = materialFileKey(file);
+            if (knownKeys.has(key)) continue;
+
+            if (
+                selectedMaterialFiles.length >=
+                maximumMaterialFiles
+            ) {
+                showInlineMessage(
+                    materialFormMessage,
+                    `You can attach no more than ${maximumMaterialFiles} files.`,
+                    true
+                );
+                break;
+            }
+
+            selectedMaterialFiles.push(file);
+            knownKeys.add(key);
+        }
+
+        renderSelectedMaterialFiles();
     }
 
     function safeStorageFileName(fileName) {
@@ -338,6 +455,64 @@
         return button;
     }
 
+    function getMaterialFiles(material) {
+        const relatedFiles = Array.isArray(
+            material.learning_material_files
+        )
+            ? material.learning_material_files
+            : [];
+
+        const files = relatedFiles
+            .filter((file) => file.file_path && file.file_name)
+            .map((file) => ({
+                id: file.id,
+                file_path: file.file_path,
+                file_name: file.file_name
+            }));
+
+        if (
+            material.material_type === "file" &&
+            material.file_path &&
+            material.file_name &&
+            !files.some(
+                (file) => file.file_path === material.file_path
+            )
+        ) {
+            files.unshift({
+                id: null,
+                file_path: material.file_path,
+                file_name: material.file_name
+            });
+        }
+
+        return files;
+    }
+
+    function createMaterialFileList(material) {
+        const list = document.createElement("div");
+        list.className = "material-file-list";
+
+        getMaterialFiles(material).forEach((file) => {
+            const row = document.createElement("div");
+            row.className = "material-file-row";
+
+            const name = document.createElement("span");
+            name.className = "material-file-name";
+            name.textContent = file.file_name;
+            name.title = file.file_name;
+
+            const downloadButton = createDownloadButton(
+                file.file_path,
+                file.file_name
+            );
+
+            row.append(name, downloadButton);
+            list.appendChild(row);
+        });
+
+        return list;
+    }
+
     function createEmptyState(text) {
         const empty = document.createElement("p");
         empty.className = "materials-empty";
@@ -472,9 +647,10 @@
         }
 
         const source = document.createElement("span");
+        const files = getMaterialFiles(material);
         source.textContent =
             material.material_type === "file"
-                ? material.file_name
+                ? plural(files.length, "file", "files")
                 : "External resource";
 
         const date = document.createElement("span");
@@ -482,17 +658,17 @@
         meta.append(source, date);
         body.appendChild(meta);
 
+        if (material.material_type === "file") {
+            body.appendChild(createMaterialFileList(material));
+        }
+
         const actions = document.createElement("div");
         actions.className = "materials-card-actions";
 
-        if (material.material_type === "file") {
-            actions.appendChild(
-                createDownloadButton(
-                    material.file_path,
-                    material.file_name
-                )
-            );
-        } else if (isSafeExternalUrl(material.external_url)) {
+        if (
+            material.material_type === "link" &&
+            isSafeExternalUrl(material.external_url)
+        ) {
             const openLink = document.createElement("a");
             openLink.className = "material-open-button";
             openLink.href = material.external_url;
@@ -545,7 +721,7 @@
         const { data, error } = await client
             .from("learning_materials")
             .select(
-                "id, teacher_id, audience_student_id, title, description, material_type, file_path, file_name, external_url, created_at"
+                "id, teacher_id, audience_student_id, title, description, material_type, file_path, file_name, external_url, created_at, learning_material_files(id, file_path, file_name, created_at)"
             )
             .order("created_at", { ascending: false });
 
@@ -577,7 +753,7 @@
         const description = materialDescription.value.trim();
         const type = materialType.value;
         const audienceStudentId = materialStudent.value || null;
-        const file = materialFile.files?.[0] || null;
+        const files = [...selectedMaterialFiles];
         const externalUrl = materialLink.value.trim();
 
         if (title.length < 2) {
@@ -590,7 +766,7 @@
         }
 
         if (type === "file") {
-            const fileError = validateFile(file);
+            const fileError = validateMaterialFiles(files);
 
             if (fileError) {
                 showInlineMessage(
@@ -611,17 +787,30 @@
 
         setButtonLoading(saveMaterialButton, "Sharing...", true);
 
-        let uploadedPath = null;
+        const uploadedFiles = [];
+        let createdMaterialId = null;
 
         try {
             if (type === "file") {
-                uploadedPath = await uploadCourseFile(
-                    "materials",
-                    file
-                );
+                for (const file of files) {
+                    const path = await uploadCourseFile(
+                        "materials",
+                        file
+                    );
+
+                    uploadedFiles.push({
+                        file_path: path,
+                        file_name: file.name
+                    });
+                }
             }
 
-            const { error } = await client
+            const primaryFile = uploadedFiles[0] || null;
+
+            const {
+                data: createdMaterial,
+                error
+            } = await client
                 .from("learning_materials")
                 .insert({
                     teacher_id: currentUser.id,
@@ -629,12 +818,30 @@
                     title,
                     description,
                     material_type: type,
-                    file_path: uploadedPath,
-                    file_name: type === "file" ? file.name : null,
+                    file_path: primaryFile?.file_path || null,
+                    file_name: primaryFile?.file_name || null,
                     external_url: type === "link" ? externalUrl : null
-                });
+                })
+                .select("id")
+                .single();
 
             if (error) throw error;
+
+            createdMaterialId = createdMaterial.id;
+
+            if (type === "file") {
+                const { error: filesError } = await client
+                    .from("learning_material_files")
+                    .insert(
+                        uploadedFiles.map((file) => ({
+                            material_id: createdMaterialId,
+                            file_path: file.file_path,
+                            file_name: file.file_name
+                        }))
+                    );
+
+                if (filesError) throw filesError;
+            }
 
             await notifyMaterialAudience(
                 audienceStudentId,
@@ -642,6 +849,8 @@
             );
 
             materialForm.reset();
+            selectedMaterialFiles = [];
+            renderSelectedMaterialFiles();
             materialType.dispatchEvent(new Event("change"));
             showInlineMessage(
                 materialFormMessage,
@@ -649,7 +858,24 @@
             );
             await loadMaterials();
         } catch (error) {
-            await removeCourseFile(uploadedPath);
+            if (createdMaterialId) {
+                const { error: rollbackError } = await client
+                    .from("learning_materials")
+                    .delete()
+                    .eq("id", createdMaterialId);
+
+                if (rollbackError) {
+                    console.error(
+                        "Material rollback failed:",
+                        rollbackError.message
+                    );
+                }
+            }
+
+            for (const file of uploadedFiles) {
+                await removeCourseFile(file.file_path);
+            }
+
             showInlineMessage(
                 materialFormMessage,
                 `The material could not be shared: ${error.message}`,
@@ -684,7 +910,10 @@
             return;
         }
 
-        await removeCourseFile(material.file_path);
+        for (const file of getMaterialFiles(material)) {
+            await removeCourseFile(file.file_path);
+        }
+
         await loadMaterials();
         showPageNotice("The material has been deleted.");
     }
@@ -1378,9 +1607,21 @@
     materialType.addEventListener("change", () => {
         const usesFile = materialType.value === "file";
         materialFileField.hidden = !usesFile;
+        materialFileSelection.hidden =
+            !usesFile || selectedMaterialFiles.length === 0;
         materialLinkField.hidden = usesFile;
-        materialFile.required = usesFile;
+        materialFile.required = false;
         materialLink.required = !usesFile;
+    });
+
+    materialFile.addEventListener("change", () => {
+        addSelectedMaterialFiles([
+            ...(materialFile.files || [])
+        ]);
+
+        // The real selection is kept in selectedMaterialFiles so that
+        // opening the picker again adds files instead of replacing them.
+        materialFile.value = "";
     });
 
     materialForm.addEventListener("submit", createMaterial);

@@ -215,6 +215,67 @@
     border-color: #efc2c2;
 }
 
+.material-file-selection {
+    display: grid;
+    gap: 8px;
+    padding: 13px;
+    background: #f4f7f1;
+    border: 1px solid #dce5d9;
+    border-radius: 15px;
+}
+
+.material-file-selection[hidden] {
+    display: none;
+}
+
+.material-file-selection-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #365247;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.selected-material-file {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 11px;
+    background: #ffffff;
+    border: 1px solid #e0e7dd;
+    border-radius: 11px;
+}
+
+.selected-material-file span {
+    min-width: 0;
+    overflow: hidden;
+    color: #637169;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.selected-material-file button {
+    padding: 5px 9px;
+    color: #a33d3d;
+    background: transparent;
+    border: 1px solid #e7b7b7;
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.selected-material-file button:hover {
+    color: #ffffff;
+    background: #b94747;
+    border-color: #b94747;
+}
+
 .materials-card-list,
 .homework-card-list {
     display: grid;
@@ -278,6 +339,39 @@
     gap: 8px 13px;
     margin-top: 9px;
     color: #8a958f;
+    font-size: 10px;
+}
+
+.material-file-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.material-file-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 10px 9px 13px;
+    background: #ffffff;
+    border: 1px solid #e1e7e3;
+    border-radius: 13px;
+}
+
+.material-file-name {
+    min-width: 0;
+    overflow: hidden;
+    color: #365247;
+    font-size: 11px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.material-file-row .material-open-button {
+    min-height: 32px;
+    padding: 6px 12px;
     font-size: 10px;
 }
 

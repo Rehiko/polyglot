@@ -150,13 +150,23 @@
                             id="materialFileField"
                             class="materials-field"
                         >
-                            <span>File · maximum 25 MB</span>
+                            <span>
+                                Files · up to 10 files, maximum 25 MB each
+                            </span>
                             <input
                                 id="materialFile"
                                 type="file"
+                                multiple
                                 accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.ppt,.pptx,.txt,.mp3,.wav,.ogg"
                             >
                         </label>
+
+                        <div
+                            id="materialFileSelection"
+                            class="material-file-selection materials-field-wide"
+                            aria-live="polite"
+                            hidden
+                        ></div>
 
                         <label
                             id="materialLinkField"
