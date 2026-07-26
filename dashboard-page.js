@@ -67,6 +67,19 @@ window.POLYGLOT_DASHBOARD_CLIENT = supabaseClient;
         }).format(new Date(value));
     }
 
+    function isSafeGoogleMeetUrl(value) {
+    try {
+        const url = new URL(value);
+
+        return (
+            url.protocol === "https:" &&
+            url.hostname === "meet.google.com"
+        );
+    } catch {
+        return false;
+    }
+}
+
     function transactionTitle(type) {
         if (type === "purchase") return "Lesson package purchased";
         if (type === "booking") return "Lesson booked";
@@ -298,10 +311,28 @@ window.POLYGLOT_DASHBOARD_CLIENT = supabaseClient;
                     cancelLesson(booking, cancelButton);
                 });
 
-                actions.append(
-                    cancellationNote,
-                    cancelButton
-                );
+                if (isSafeGoogleMeetUrl(booking.meeting_url)) {
+                const joinMeetingLink =
+                    document.createElement("a");
+
+                joinMeetingLink.className =
+                    "join-meeting-button";
+
+                joinMeetingLink.href =
+                    booking.meeting_url;
+
+                joinMeetingLink.target = "_blank";
+                joinMeetingLink.rel = "noopener noreferrer";
+                joinMeetingLink.textContent =
+                    "Join Google Meet →";
+
+                actions.appendChild(joinMeetingLink);
+            }
+
+            actions.append(
+                cancellationNote,
+                cancelButton
+            );
 
                 item.appendChild(actions);
             }
@@ -393,7 +424,7 @@ window.POLYGLOT_DASHBOARD_CLIENT = supabaseClient;
             supabaseClient
                 .from("lesson_bookings")
                 .select(
-                    "id, teacher_id, starts_at, ends_at, status, credit_source"
+                    "id, teacher_id, starts_at, ends_at, status, credit_source, meeting_url"
                 )
                 .eq("student_id", studentId)
                 .order("starts_at", { ascending: true }),

@@ -96,6 +96,19 @@
         }).format(new Date(value));
     }
 
+    function isSafeGoogleMeetUrl(value) {
+    try {
+        const url = new URL(value);
+
+        return (
+            url.protocol === "https:" &&
+            url.hostname === "meet.google.com"
+        );
+    } catch {
+        return false;
+    }
+}
+
     function minutesFromTime(value) {
         const [hours, minutes] = value
             .split(":")
@@ -330,10 +343,27 @@ function createUpcomingBookingElement(booking) {
         );
     });
 
-    actions.append(
-        status,
-        cancelButton
-    );
+    actions.appendChild(status);
+
+if (isSafeGoogleMeetUrl(booking.meeting_url)) {
+    const joinMeetingLink =
+        document.createElement("a");
+
+    joinMeetingLink.className =
+        "join-meeting-button teacher-join-meeting-button";
+
+    joinMeetingLink.href =
+        booking.meeting_url;
+
+    joinMeetingLink.target = "_blank";
+    joinMeetingLink.rel = "noopener noreferrer";
+    joinMeetingLink.textContent =
+        "Join Meet →";
+
+    actions.appendChild(joinMeetingLink);
+}
+
+actions.appendChild(cancelButton);
 
     item.append(
         details,
@@ -660,20 +690,51 @@ function createUpcomingBookingElement(booking) {
     }
 
     async function loadBookings() {
-        const { data, error } = await client.rpc(
+    const [
+        dashboardResult,
+        meetingResult
+    ] = await Promise.all([
+        client.rpc(
             "get_teacher_lesson_dashboard"
+        ),
+
+        client
+            .from("lesson_bookings")
+            .select("id, meeting_url")
+            .eq("teacher_id", teacherId)
+    ]);
+
+    if (dashboardResult.error) {
+        showMessage(
+            `Bookings could not be loaded: ${dashboardResult.error.message}`
         );
-
-        if (error) {
-            showMessage(
-                `Bookings could not be loaded: ${error.message}`
-            );
-
-            return;
-        }
-
-        renderTeacherDashboard(data || []);
+        return;
     }
+
+    if (meetingResult.error) {
+        showMessage(
+            `Google Meet links could not be loaded: ${meetingResult.error.message}`
+        );
+        return;
+    }
+
+    const meetingByBooking = new Map(
+        (meetingResult.data || []).map((booking) => [
+            booking.id,
+            booking.meeting_url
+        ])
+    );
+
+    const bookings = (
+        dashboardResult.data || []
+    ).map((booking) => ({
+        ...booking,
+        meeting_url:
+            meetingByBooking.get(booking.booking_id) || null
+    }));
+
+    renderTeacherDashboard(bookings);
+}
 
     async function initializeSchedule() {
         if (window.location.hash === "#availability") {
