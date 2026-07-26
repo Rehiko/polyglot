@@ -1323,6 +1323,19 @@
                 )}px`;
         }
     );
+    messageInput.addEventListener("keydown", (event) => {
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey &&
+        !event.isComposing
+    ) {
+        event.preventDefault();
+
+        if (!sendMessageButton.disabled) {
+            messageForm.requestSubmit();
+        }
+    }
+});
 
     attachFileButton.addEventListener(
         "click",

@@ -680,6 +680,17 @@
     display: none;
 }
 
+.message-list {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.message-list::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
 @media (max-width: 520px) {
     .message-list {
         padding: 16px 12px;
