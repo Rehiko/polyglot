@@ -1,0 +1,568 @@
+.materials-page {
+    min-height: 100vh;
+}
+
+.materials-main {
+    width: min(1320px, calc(100% - 48px));
+    margin: 34px auto 70px;
+}
+
+.materials-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: clamp(28px, 5vw, 54px);
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(220, 239, 96, 0.4),
+            transparent 38%
+        ),
+        #ffffff;
+    border: 1px solid #dfe6e1;
+    border-radius: 28px;
+    box-shadow: 0 18px 55px rgba(20, 63, 46, 0.08);
+}
+
+.materials-hero h1 {
+    margin: 7px 0 10px;
+    color: #12233f;
+    font-size: clamp(31px, 4vw, 50px);
+    line-height: 1.12;
+}
+
+.materials-hero p {
+    max-width: 680px;
+    margin: 0;
+    color: #69766f;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.materials-hero-mark {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 90px;
+    height: 90px;
+    color: #dcef60;
+    background: #1d4217;
+    border-radius: 50%;
+    box-shadow: 0 18px 38px rgba(29, 66, 23, 0.2);
+    font-size: 32px;
+}
+
+.materials-tabs {
+    display: inline-flex;
+    gap: 7px;
+    margin: 26px 0 18px;
+    padding: 6px;
+    background: #eef2ed;
+    border: 1px solid #dfe6e1;
+    border-radius: 999px;
+}
+
+.materials-tab {
+    padding: 11px 19px;
+    color: #65736c;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.materials-tab.active {
+    color: #ffffff;
+    background: #1d4217;
+    box-shadow: 0 6px 16px rgba(29, 66, 23, 0.16);
+}
+
+.materials-tab-panel[hidden],
+.materials-composer[hidden],
+.materials-field[hidden],
+.materials-inline-message[hidden] {
+    display: none;
+}
+
+.materials-tab-panel {
+    display: grid;
+    gap: 22px;
+}
+
+.materials-composer,
+.materials-library {
+    padding: clamp(24px, 4vw, 40px);
+    background: #ffffff;
+    border: 1px solid #dfe6e1;
+    border-radius: 26px;
+    box-shadow: 0 16px 44px rgba(20, 63, 46, 0.06);
+}
+
+.materials-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 26px;
+}
+
+.materials-section-heading h2 {
+    margin: 6px 0 6px;
+    color: #12233f;
+    font-size: clamp(23px, 3vw, 31px);
+}
+
+.materials-section-heading p {
+    max-width: 720px;
+    margin: 0;
+    color: #738079;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.materials-count {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    color: #365247;
+    background: #eff5e4;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.materials-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.materials-field {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+}
+
+.materials-field > span {
+    color: #27473b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.materials-field input,
+.materials-field select,
+.materials-field textarea,
+.homework-feedback {
+    width: 100%;
+    padding: 12px 14px;
+    color: #273a32;
+    background: #f7f9f7;
+    border: 1px solid #dce4df;
+    border-radius: 14px;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.materials-field input,
+.materials-field select {
+    min-height: 48px;
+}
+
+.materials-field textarea,
+.homework-feedback {
+    resize: vertical;
+}
+
+.materials-field input:focus,
+.materials-field select:focus,
+.materials-field textarea:focus,
+.homework-feedback:focus {
+    background: #ffffff;
+    border-color: #85af91;
+    box-shadow: 0 0 0 3px rgba(50, 118, 82, 0.1);
+}
+
+.materials-field-wide {
+    grid-column: 1 / -1;
+}
+
+.materials-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.materials-inline-message {
+    flex: 1;
+    padding: 11px 13px;
+    color: #155f43;
+    background: #e5f5ec;
+    border: 1px solid #b7dec9;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.materials-inline-message.error {
+    color: #a33d3d;
+    background: #fdeaea;
+    border-color: #efc2c2;
+}
+
+.materials-card-list,
+.homework-card-list {
+    display: grid;
+    gap: 14px;
+}
+
+.materials-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 17px;
+    padding: 20px;
+    background: #fbfcfa;
+    border: 1px solid #dfe6e1;
+    border-radius: 19px;
+}
+
+.materials-card-icon {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    color: #173e30;
+    background: #dcef60;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.materials-card-body {
+    min-width: 0;
+}
+
+.materials-card-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.materials-card h3,
+.homework-card h3 {
+    margin: 0;
+    color: #173e30;
+    font-size: 16px;
+}
+
+.materials-card p,
+.homework-card p {
+    margin: 7px 0 0;
+    color: #6f7b75;
+    font-size: 12px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.materials-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 13px;
+    margin-top: 9px;
+    color: #8a958f;
+    font-size: 10px;
+}
+
+.audience-badge,
+.homework-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.audience-badge {
+    color: #365247;
+    background: #edf3e7;
+}
+
+.materials-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.material-open-button,
+.material-delete-button,
+.homework-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 39px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.material-open-button,
+.homework-action-button.primary {
+    color: #ffffff;
+    background: #1d4217;
+    border: 1px solid #1d4217;
+}
+
+.material-open-button:hover,
+.homework-action-button.primary:hover {
+    color: #173e30;
+    background: #dcef60;
+    border-color: #dcef60;
+}
+
+.material-delete-button {
+    color: #a33d3d;
+    background: transparent;
+    border: 1px solid #e7b7b7;
+}
+
+.material-delete-button:hover {
+    color: #ffffff;
+    background: #b94747;
+    border-color: #b94747;
+}
+
+.material-open-button:disabled,
+.material-delete-button:disabled,
+.homework-action-button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+.homework-card {
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #dfe6e1;
+    border-radius: 20px;
+}
+
+.homework-card.overdue {
+    border-color: #edc6ad;
+    box-shadow: inset 4px 0 0 #d58b5a;
+}
+
+.homework-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.homework-card-heading > div {
+    min-width: 0;
+}
+
+.homework-status.pending {
+    color: #8b651b;
+    background: #fff1bf;
+}
+
+.homework-status.submitted {
+    color: #155f43;
+    background: #ddf4e8;
+}
+
+.homework-status.reviewed {
+    color: #3d5d31;
+    background: #e8f2d4;
+}
+
+.homework-status.changes_requested {
+    color: #9b4a36;
+    background: #fde8df;
+}
+
+.homework-status.overdue {
+    color: #9b4a36;
+    background: #fde8df;
+}
+
+.homework-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 15px;
+    margin-top: 10px;
+    color: #849089;
+    font-size: 10px;
+}
+
+.homework-attachment {
+    margin-top: 14px;
+}
+
+.homework-submission {
+    margin-top: 18px;
+    padding: 17px;
+    background: #f5f8f4;
+    border: 1px solid #e0e7e2;
+    border-radius: 16px;
+}
+
+.homework-submission h4 {
+    margin: 0 0 8px;
+    color: #28483c;
+    font-size: 12px;
+}
+
+.homework-feedback-box {
+    margin-top: 14px;
+    padding: 14px;
+    color: #43564d;
+    background: #f4f8df;
+    border: 1px solid #dbe990;
+    border-radius: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.homework-review-form,
+.homework-submit-form {
+    display: grid;
+    gap: 11px;
+    margin-top: 15px;
+}
+
+.homework-review-actions,
+.homework-submit-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.homework-action-button.secondary {
+    color: #9b4a36;
+    background: #ffffff;
+    border: 1px solid #e0b7aa;
+}
+
+.homework-action-button.secondary:hover {
+    color: #ffffff;
+    background: #a85b43;
+}
+
+.materials-empty {
+    padding: 32px 20px;
+    color: #7a8780;
+    background: #fafbf9;
+    border: 1px dashed #d5ddd8;
+    border-radius: 17px;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+@media (max-width: 820px) {
+    .materials-main {
+        width: min(100% - 20px, 1320px);
+        margin: 18px auto 50px;
+    }
+
+    .materials-form {
+        grid-template-columns: 1fr;
+    }
+
+    .materials-field-wide {
+        grid-column: auto;
+    }
+
+    .materials-card {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .materials-card-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 560px) {
+    .materials-hero {
+        align-items: flex-start;
+        padding: 26px 22px;
+    }
+
+    .materials-hero-mark {
+        width: 58px;
+        height: 58px;
+        font-size: 22px;
+    }
+
+    .materials-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        border-radius: 18px;
+    }
+
+    .materials-tab {
+        padding: 10px 12px;
+    }
+
+    .materials-composer,
+    .materials-library {
+        padding: 22px 16px;
+        border-radius: 21px;
+    }
+
+    .materials-section-heading,
+    .homework-card-heading {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .materials-form-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .materials-card {
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .materials-card-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .materials-card-actions,
+    .homework-review-actions,
+    .homework-submit-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .material-open-button,
+    .material-delete-button,
+    .homework-action-button {
+        width: 100%;
+    }
+}

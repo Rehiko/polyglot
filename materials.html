@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Materials | Polyglot</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="materials.css">
+</head>
+
+<body class="simple-page materials-page">
+
+    <header class="simple-header dashboard-header">
+        <a class="auth-logo" href="index.html">POLYGLOT</a>
+
+        <nav class="dashboard-nav" aria-label="Materials navigation">
+            <a id="materialsDashboardLink" href="dashboard.html">Dashboard</a>
+            <a id="materialsTeachersLink" href="teachers.html">Teachers</a>
+
+            <a class="dashboard-messages-link" href="messages.html">
+                <span>Messages</span>
+                <span
+                    id="dashboardUnreadCount"
+                    class="dashboard-unread-count"
+                    aria-label="Unread messages"
+                    hidden
+                ></span>
+            </a>
+
+            <a class="active" href="materials.html">Materials</a>
+        </nav>
+
+        <button id="logoutButton" class="logout-button" type="button">
+            Log out
+        </button>
+    </header>
+
+    <main class="materials-main">
+        <div id="materialsMessage" class="notice warning">
+            Loading your learning space...
+        </div>
+
+        <section id="materialsContent" hidden>
+            <section class="materials-hero">
+                <div>
+                    <span id="materialsEyebrow" class="dashboard-eyebrow">
+                        Learning space
+                    </span>
+
+                    <h1 id="materialsTitle">Materials and homework</h1>
+
+                    <p id="materialsIntro">
+                        Keep lesson resources and assignments together.
+                    </p>
+                </div>
+
+                <div class="materials-hero-mark" aria-hidden="true">✦</div>
+            </section>
+
+            <div class="materials-tabs" role="tablist">
+                <button
+                    class="materials-tab active"
+                    type="button"
+                    role="tab"
+                    aria-selected="true"
+                    data-panel="learningMaterialsPanel"
+                >
+                    Learning materials
+                </button>
+
+                <button
+                    class="materials-tab"
+                    type="button"
+                    role="tab"
+                    aria-selected="false"
+                    data-panel="homeworkPanel"
+                >
+                    Homework
+                </button>
+            </div>
+
+            <section
+                id="learningMaterialsPanel"
+                class="materials-tab-panel active"
+                role="tabpanel"
+            >
+                <section
+                    id="teacherMaterialComposer"
+                    class="materials-composer"
+                    hidden
+                >
+                    <div class="materials-section-heading">
+                        <div>
+                            <span class="dashboard-eyebrow">Teacher tools</span>
+                            <h2>Share a learning material</h2>
+                            <p>
+                                Upload a textbook, presentation, audio file,
+                                worksheet, or share a useful link.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="materialForm" class="materials-form">
+                        <label class="materials-field">
+                            <span>Title</span>
+                            <input
+                                id="materialTitle"
+                                type="text"
+                                maxlength="140"
+                                placeholder="Japanese grammar workbook"
+                                required
+                            >
+                        </label>
+
+                        <label class="materials-field">
+                            <span>Share with</span>
+                            <select id="materialStudent">
+                                <option value="">All my students</option>
+                            </select>
+                        </label>
+
+                        <label class="materials-field materials-field-wide">
+                            <span>Description</span>
+                            <textarea
+                                id="materialDescription"
+                                rows="3"
+                                maxlength="3000"
+                                placeholder="Add a short explanation or reading instructions..."
+                            ></textarea>
+                        </label>
+
+                        <label class="materials-field">
+                            <span>Material type</span>
+                            <select id="materialType">
+                                <option value="file">Upload a file</option>
+                                <option value="link">Share a link</option>
+                            </select>
+                        </label>
+
+                        <label
+                            id="materialFileField"
+                            class="materials-field"
+                        >
+                            <span>File · maximum 25 MB</span>
+                            <input
+                                id="materialFile"
+                                type="file"
+                                accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.ppt,.pptx,.txt,.mp3,.wav,.ogg"
+                            >
+                        </label>
+
+                        <label
+                            id="materialLinkField"
+                            class="materials-field"
+                            hidden
+                        >
+                            <span>Web link</span>
+                            <input
+                                id="materialLink"
+                                type="url"
+                                maxlength="2000"
+                                placeholder="https://..."
+                            >
+                        </label>
+
+                        <div class="materials-form-footer materials-field-wide">
+                            <div
+                                id="materialFormMessage"
+                                class="materials-inline-message"
+                                role="status"
+                                hidden
+                            ></div>
+
+                            <button
+                                id="saveMaterialButton"
+                                class="primary-button compact-button"
+                                type="submit"
+                            >
+                                <span>Share material</span>
+                                <span aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="materials-library">
+                    <div class="materials-section-heading">
+                        <div>
+                            <span class="dashboard-eyebrow">Library</span>
+                            <h2 id="materialsListTitle">Shared materials</h2>
+                        </div>
+
+                        <span
+                            id="materialsCount"
+                            class="materials-count"
+                        >0 materials</span>
+                    </div>
+
+                    <div
+                        id="materialsList"
+                        class="materials-card-list"
+                    ></div>
+                </section>
+            </section>
+
+            <section
+                id="homeworkPanel"
+                class="materials-tab-panel"
+                role="tabpanel"
+                hidden
+            >
+                <section
+                    id="teacherHomeworkComposer"
+                    class="materials-composer"
+                    hidden
+                >
+                    <div class="materials-section-heading">
+                        <div>
+                            <span class="dashboard-eyebrow">Teacher tools</span>
+                            <h2>Create homework</h2>
+                            <p>
+                                Add instructions, an optional deadline,
+                                and a supporting file.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="homeworkForm" class="materials-form">
+                        <label class="materials-field">
+                            <span>Student</span>
+                            <select id="homeworkStudent" required>
+                                <option value="">Choose a student</option>
+                            </select>
+                        </label>
+
+                        <label class="materials-field">
+                            <span>Title</span>
+                            <input
+                                id="homeworkTitle"
+                                type="text"
+                                maxlength="140"
+                                placeholder="Complete exercises 1–5"
+                                required
+                            >
+                        </label>
+
+                        <label class="materials-field">
+                            <span>Due date · optional</span>
+                            <input id="homeworkDueAt" type="datetime-local">
+                        </label>
+
+                        <label class="materials-field">
+                            <span>Attachment · optional, maximum 25 MB</span>
+                            <input
+                                id="homeworkFile"
+                                type="file"
+                                accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.ppt,.pptx,.txt,.mp3,.wav,.ogg"
+                            >
+                        </label>
+
+                        <label class="materials-field materials-field-wide">
+                            <span>Instructions</span>
+                            <textarea
+                                id="homeworkInstructions"
+                                rows="5"
+                                maxlength="5000"
+                                placeholder="Explain what the student needs to complete..."
+                                required
+                            ></textarea>
+                        </label>
+
+                        <div class="materials-form-footer materials-field-wide">
+                            <div
+                                id="homeworkFormMessage"
+                                class="materials-inline-message"
+                                role="status"
+                                hidden
+                            ></div>
+
+                            <button
+                                id="saveHomeworkButton"
+                                class="primary-button compact-button"
+                                type="submit"
+                            >
+                                <span>Create homework</span>
+                                <span aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="materials-library">
+                    <div class="materials-section-heading">
+                        <div>
+                            <span class="dashboard-eyebrow">Assignments</span>
+                            <h2 id="homeworkListTitle">Homework</h2>
+                        </div>
+
+                        <span
+                            id="homeworkCount"
+                            class="materials-count"
+                        >0 assignments</span>
+                    </div>
+
+                    <div
+                        id="homeworkList"
+                        class="homework-card-list"
+                    ></div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="materials.js"></script>
+    <script src="unread-navigation.js"></script>
+
+</body>
+
+</html>

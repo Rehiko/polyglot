@@ -25,7 +25,18 @@
         <nav class="dashboard-nav" aria-label="Messages navigation">
             <a href="dashboard.html">Dashboard</a>
             <a href="teachers.html">Teachers</a>
-            <a class="active" href="messages.html">Messages</a>
+
+            <a class="active messages-nav-link" href="messages.html">
+                <span>Messages</span>
+                <span
+                    id="navUnreadCount"
+                    class="nav-unread-count"
+                    aria-label="Unread messages"
+                    hidden
+                ></span>
+            </a>
+
+            <a href="materials.html">Materials</a>
         </nav>
 
         <button id="logoutButton" class="logout-button" type="button">
