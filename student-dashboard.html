@@ -26,7 +26,19 @@
             <a class="active" href="student-dashboard.html">Overview</a>
             <a href="teachers.html">Find a teacher</a>
             <a href="packages.html">Lesson packages</a>
-            <a href="#">Materials</a>
+            <a href="packages.html">Lesson packages</a>
+
+<a class="dashboard-messages-link" href="messages.html">
+    <span>Messages</span>
+    <span
+        id="dashboardUnreadCount"
+        class="dashboard-unread-count"
+        aria-label="Unread messages"
+        hidden
+    ></span>
+</a>
+
+<a href="#">Materials</a>
         </nav>
 
         <button id="logoutButton" class="logout-button" type="button">
@@ -168,6 +180,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="dashboard-page.js"></script>
+    <script src="unread-navigation.js"></script>
 
 </body>
 

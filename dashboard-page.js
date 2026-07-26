@@ -43,9 +43,11 @@ if (!configIsReady) {
     );
 } else {
     const supabaseClient = window.supabase.createClient(
-        supabaseUrl,
-        supabaseKey
-    );
+    supabaseUrl,
+    supabaseKey
+);
+
+window.POLYGLOT_DASHBOARD_CLIENT = supabaseClient;
 
     function formatLessonDate(value) {
         return new Intl.DateTimeFormat(undefined, {

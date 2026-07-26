@@ -1586,6 +1586,37 @@ a {
     }
 }
 
+
+/* Dashboard unread messages badge */
+
+.dashboard-messages-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dashboard-unread-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 6px;
+    color: #173e30;
+    background: #dcef60;
+    border: 2px solid #1d4217;
+    border-radius: 999px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    transform: translateY(-7px);
+}
+
+.dashboard-unread-count[hidden] {
+    display: none;
+}
+
 @media (max-width: 560px) {
     .auth-header {
         min-height: 70px;
