@@ -330,3 +330,107 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Teacher payouts */
+
+.admin-payout-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.admin-payout-card {
+    display: grid;
+    grid-template-columns: minmax(210px, 1fr) auto auto;
+    align-items: center;
+    gap: 28px;
+    padding: 22px 24px;
+    background: #fbfcfb;
+    border: 1px solid #dfe6e1;
+    border-radius: 18px;
+}
+
+.admin-payout-teacher {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.admin-payout-teacher strong {
+    color: #173e30;
+    font-size: 16px;
+}
+
+.admin-payout-teacher span {
+    color: #7a8580;
+    font-size: 12px;
+}
+
+.admin-payout-totals {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.admin-payout-total {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 110px;
+}
+
+.admin-payout-total span {
+    color: #7a8580;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.admin-payout-total strong {
+    color: #173e30;
+    font-size: 20px;
+}
+
+.admin-payout-total.available strong {
+    color: #3f721f;
+}
+
+.admin-mark-paid-button {
+    padding: 11px 17px;
+    color: #ffffff;
+    background: #1d4217;
+    border: 1px solid #1d4217;
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.admin-mark-paid-button:hover {
+    color: #173e30;
+    background: #dcef60;
+    border-color: #dcef60;
+}
+
+.admin-mark-paid-button:disabled {
+    color: #8a948f;
+    background: #e4e8e5;
+    border-color: #e4e8e5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 850px) {
+    .admin-payout-card {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .admin-payout-totals {
+        justify-content: space-between;
+    }
+
+    .admin-mark-paid-button {
+        width: 100%;
+    }
+}

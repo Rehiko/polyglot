@@ -1056,3 +1056,178 @@ html {
         width: 100%;
     }
 }
+
+/* Teacher earnings */
+
+.teacher-earnings-panel {
+    margin-top: 28px;
+    padding: 38px;
+    background: #ffffff;
+    border: 1px solid #dfe6e1;
+    border-radius: 26px;
+    box-shadow: 0 15px 40px rgba(20, 63, 46, 0.07);
+}
+
+.teacher-earnings-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.teacher-earnings-heading h2 {
+    margin: 7px 0 8px;
+    color: #12233f;
+    font-size: 28px;
+}
+
+.teacher-earnings-heading p {
+    max-width: 680px;
+    margin: 0;
+    color: #77827d;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.teacher-earnings-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.teacher-earning-card {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-height: 180px;
+    padding: 25px;
+    background: #f7f9f6;
+    border: 1px solid #e0e6e2;
+    border-radius: 20px;
+}
+
+.teacher-earning-card.available {
+    color: #ffffff;
+    background: #1d4217;
+    border-color: #1d4217;
+}
+
+.teacher-earning-card > span {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.teacher-earning-card strong {
+    margin-top: auto;
+    color: #173e30;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.teacher-earning-card.available strong {
+    color: #dcef60;
+}
+
+.teacher-earning-card small {
+    color: #7a8580;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.teacher-earning-card.available small {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.teacher-earnings-history-heading {
+    margin-top: 38px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e3e8e5;
+}
+
+.teacher-earnings-history-heading h3 {
+    margin: 0;
+    color: #12233f;
+    font-size: 20px;
+}
+
+.teacher-earnings-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.teacher-earning-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 18px;
+    background: #fbfcfb;
+    border: 1px solid #e3e8e5;
+    border-radius: 15px;
+}
+
+.teacher-earning-information {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.teacher-earning-information strong {
+    color: #173e30;
+    font-size: 14px;
+}
+
+.teacher-earning-information span {
+    color: #7a8580;
+    font-size: 11px;
+}
+
+.teacher-earning-amount {
+    color: #173e30;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.teacher-earning-status {
+    min-width: 88px;
+    padding: 7px 11px;
+    color: #35634f;
+    background: #e4f4ec;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.teacher-earning-status.paid {
+    color: #685a16;
+    background: #fff3c4;
+}
+
+@media (max-width: 800px) {
+    .teacher-earnings-panel {
+        padding: 26px 20px;
+    }
+
+    .teacher-earnings-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-earning-card {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 560px) {
+    .teacher-earning-item {
+        grid-template-columns: 1fr auto;
+    }
+
+    .teacher-earning-status {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}

@@ -8,6 +8,21 @@
     const bookingsList = document.getElementById("teacherBookings");
     const studentsList = document.getElementById("teacherStudents");
     const historyList = document.getElementById("teacherLessonHistory");
+    const earningsList = document.getElementById(
+    "teacherEarningsList"
+);
+
+const availableEarnings = document.getElementById(
+    "teacherAvailableEarnings"
+);
+
+const paidEarnings = document.getElementById(
+    "teacherPaidEarnings"
+);
+
+const completedPaidLessons = document.getElementById(
+    "teacherCompletedPaidLessons"
+);
 
     const nextLessonTitle = document.getElementById(
         "teacherNextLessonTitle"
@@ -736,6 +751,146 @@ actions.appendChild(cancelButton);
     renderTeacherDashboard(bookings);
 }
 
+function formatEarningsAmount(amountMinor) {
+    return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: "EUR"
+    }).format((amountMinor || 0) / 100);
+}
+
+function createTeacherEarningElement(earning) {
+    const item = document.createElement("article");
+    item.className = "teacher-earning-item";
+
+    const information = document.createElement("div");
+    information.className = "teacher-earning-information";
+
+    const title = document.createElement("strong");
+    title.textContent = "Paid lesson completed";
+
+    const date = document.createElement("span");
+    date.textContent = new Intl.DateTimeFormat(undefined, {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    }).format(new Date(earning.earned_at));
+
+    information.append(title, date);
+
+    const amount = document.createElement("strong");
+    amount.className = "teacher-earning-amount";
+    amount.textContent = formatEarningsAmount(
+        earning.amount_minor
+    );
+
+    const status = document.createElement("span");
+    status.className =
+        `teacher-earning-status ${earning.status}`;
+
+    status.textContent =
+        earning.status === "paid"
+            ? "Paid"
+            : "Available";
+
+    item.append(
+        information,
+        amount,
+        status
+    );
+
+    return item;
+}
+
+function renderTeacherEarnings(earnings) {
+    if (
+        !earningsList ||
+        !availableEarnings ||
+        !paidEarnings ||
+        !completedPaidLessons
+    ) {
+        return;
+    }
+
+    const availableTotal = earnings
+        .filter((earning) => earning.status === "available")
+        .reduce((total, earning) => {
+            return total + earning.amount_minor;
+        }, 0);
+
+    const paidTotal = earnings
+        .filter((earning) => earning.status === "paid")
+        .reduce((total, earning) => {
+            return total + earning.amount_minor;
+        }, 0);
+
+    availableEarnings.textContent =
+        formatEarningsAmount(availableTotal);
+
+    paidEarnings.textContent =
+        formatEarningsAmount(paidTotal);
+
+    completedPaidLessons.textContent =
+        String(earnings.length);
+
+    earningsList.replaceChildren();
+
+    if (!earnings.length) {
+        const empty = document.createElement("p");
+
+        empty.className = "empty-transactions";
+        empty.textContent =
+            "Completed paid lessons will appear here.";
+
+        earningsList.appendChild(empty);
+        return;
+    }
+
+    earnings.forEach((earning) => {
+        earningsList.appendChild(
+            createTeacherEarningElement(earning)
+        );
+    });
+}
+
+async function loadTeacherEarnings() {
+    if (!teacherId) return;
+
+    const { error: refreshError } = await client.rpc(
+        "refresh_teacher_earnings"
+    );
+
+    if (refreshError) {
+        showMessage(
+            `Earnings could not be updated: ${refreshError.message}`
+        );
+
+        return;
+    }
+
+    const { data, error } = await client
+        .from("teacher_earnings")
+        .select(
+            "id, booking_id, amount_minor, currency, status, earned_at, paid_at"
+        )
+        .eq("teacher_id", teacherId)
+        .order("earned_at", {
+            ascending: false
+        });
+
+    if (error) {
+        showMessage(
+            `Earnings could not be loaded: ${error.message}`
+        );
+
+        return;
+    }
+
+    renderTeacherEarnings(data || []);
+}
+
     async function initializeSchedule() {
         if (window.location.hash === "#availability") {
             document
@@ -816,7 +971,10 @@ actions.appendChild(cancelButton);
 
         renderScheduleRows(rules || []);
 
-        await loadBookings();
+        await Promise.all([
+    loadBookings(),
+    loadTeacherEarnings()
+]);
     }
 
     form.addEventListener(

@@ -38,6 +38,7 @@
             </a>
 
             <a href="materials.html">Materials</a>
+            <a href="#earnings">Earnings</a>
         </nav>
 
         <button id="logoutButton" class="logout-button" type="button">
@@ -251,7 +252,77 @@
                 </div>
 
             </section>
+            <section id="earnings" class="teacher-earnings-panel">
 
+    <div class="teacher-earnings-heading">
+        <div>
+            <span class="dashboard-eyebrow">
+                Teacher earnings
+            </span>
+
+            <h2>Your earnings</h2>
+
+            <p>
+                You receive €5 for every completed paid lesson.
+                Free trial and cancelled lessons are not included.
+            </p>
+        </div>
+    </div>
+
+    <div class="teacher-earnings-summary">
+
+        <article class="teacher-earning-card available">
+            <span>Available for payout</span>
+
+            <strong id="teacherAvailableEarnings">
+                €0.00
+            </strong>
+
+            <small>
+                Completed lessons awaiting payment
+            </small>
+        </article>
+
+        <article class="teacher-earning-card">
+            <span>Already paid</span>
+
+            <strong id="teacherPaidEarnings">
+                €0.00
+            </strong>
+
+            <small>
+                Payments confirmed by Polyglot
+            </small>
+        </article>
+
+        <article class="teacher-earning-card">
+            <span>Paid lessons completed</span>
+
+            <strong id="teacherCompletedPaidLessons">
+                0
+            </strong>
+
+            <small>
+                Free trial lessons are excluded
+            </small>
+        </article>
+
+    </div>
+
+    <div class="teacher-earnings-history-heading">
+        <h3>Earnings history</h3>
+    </div>
+
+    <div
+        id="teacherEarningsList"
+        class="teacher-earnings-list"
+    >
+        <p class="empty-transactions">
+            Loading earnings...
+        </p>
+    </div>
+
+</section>
             <section class="lesson-history-panel teacher-history-panel">
                 <div>
                     <span class="dashboard-eyebrow">

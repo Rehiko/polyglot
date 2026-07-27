@@ -7,6 +7,7 @@
     const teacherList = document.getElementById("adminTeacherList");
     const userList = document.getElementById("adminUserList");
     const paymentList = document.getElementById("adminPaymentList");
+    const payoutList = document.getElementById("adminPayoutList");
     const bookingList = document.getElementById("adminBookingList");
 
     const supabaseUrl = window.POLYGLOT_SUPABASE_URL;
@@ -434,6 +435,203 @@
         );
     }
 
+    function formatPayoutAmount(amountMinor) {
+    return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: "EUR"
+    }).format(Number(amountMinor || 0) / 100);
+}
+
+async function markTeacherPayoutPaid(payout, button) {
+    const amount = formatPayoutAmount(
+        payout.available_amount_minor
+    );
+
+    const confirmed = window.confirm(
+        `Confirm that you have already sent ${amount} to ` +
+        `${payout.teacher_name}?\n\n` +
+        `This button records the payment but does not transfer money.`
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    button.textContent = "Updating...";
+
+    const { data, error } = await client.rpc(
+        "mark_teacher_earnings_paid",
+        {
+            p_teacher_id: payout.teacher_id
+        }
+    );
+
+    if (error) {
+        button.disabled = false;
+        button.textContent = "Mark as paid";
+
+        showAdminError(
+            error.message ||
+            "The teacher payout could not be updated."
+        );
+
+        return;
+    }
+
+    await loadTeacherPayouts();
+
+    showAdminNotice(
+        `${data || 0} lesson payment(s) for ` +
+        `${payout.teacher_name} marked as paid.`
+    );
+}
+
+function createAdminPayoutCard(payout) {
+    const card = document.createElement("article");
+    card.className = "admin-payout-card";
+
+    const teacher = document.createElement("div");
+    teacher.className = "admin-payout-teacher";
+
+    const teacherName = document.createElement("strong");
+    teacherName.textContent =
+        payout.teacher_name || "Unknown teacher";
+
+    const lessonSummary = document.createElement("span");
+
+    const availableLessons =
+        Number(payout.available_lessons || 0);
+
+    lessonSummary.textContent =
+        `${availableLessons} completed lesson` +
+        `${availableLessons === 1 ? "" : "s"} awaiting payout`;
+
+    teacher.append(
+        teacherName,
+        lessonSummary
+    );
+
+    const totals = document.createElement("div");
+    totals.className = "admin-payout-totals";
+
+    const availableTotal = document.createElement("div");
+    availableTotal.className =
+        "admin-payout-total available";
+
+    const availableLabel = document.createElement("span");
+    availableLabel.textContent = "Available";
+
+    const availableAmount = document.createElement("strong");
+    availableAmount.textContent = formatPayoutAmount(
+        payout.available_amount_minor
+    );
+
+    availableTotal.append(
+        availableLabel,
+        availableAmount
+    );
+
+    const paidTotal = document.createElement("div");
+    paidTotal.className = "admin-payout-total";
+
+    const paidLabel = document.createElement("span");
+    paidLabel.textContent = "Paid";
+
+    const paidAmount = document.createElement("strong");
+    paidAmount.textContent = formatPayoutAmount(
+        payout.paid_amount_minor
+    );
+
+    paidTotal.append(
+        paidLabel,
+        paidAmount
+    );
+
+    totals.append(
+        availableTotal,
+        paidTotal
+    );
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "admin-mark-paid-button";
+
+    button.textContent =
+        availableLessons > 0
+            ? "Mark as paid"
+            : "Nothing to pay";
+
+    button.disabled = availableLessons === 0;
+
+    button.addEventListener("click", () => {
+        markTeacherPayoutPaid(
+            payout,
+            button
+        );
+    });
+
+    card.append(
+        teacher,
+        totals,
+        button
+    );
+
+    return card;
+}
+
+function renderTeacherPayouts(payouts) {
+    if (!payoutList) return;
+
+    payoutList.replaceChildren();
+
+    if (!payouts?.length) {
+        payoutList.appendChild(
+            createEmptyMessage(
+                "No teacher earnings found."
+            )
+        );
+
+        return;
+    }
+
+    payouts.forEach((payout) => {
+        payoutList.appendChild(
+            createAdminPayoutCard(payout)
+        );
+    });
+}
+
+async function loadTeacherPayouts() {
+    const { error: refreshError } = await client.rpc(
+        "refresh_teacher_earnings"
+    );
+
+    if (refreshError) {
+        showAdminError(
+            refreshError.message ||
+            "Teacher earnings could not be refreshed."
+        );
+
+        return false;
+    }
+
+    const { data, error } = await client.rpc(
+        "get_admin_teacher_earnings"
+    );
+
+    if (error) {
+        showAdminError(
+            error.message ||
+            "Teacher earnings could not be loaded."
+        );
+
+        return false;
+    }
+
+    renderTeacherPayouts(data || []);
+
+    return true;
+}
+
     async function loadAdminData(showLoading = true) {
         if (showLoading) {
             adminMessage.textContent =
@@ -462,6 +660,12 @@
         renderPayments(data?.payments || []);
         renderBookings(data?.bookings || []);
 
+        const payoutsLoaded = await loadTeacherPayouts();
+
+        if (!payoutsLoaded) {
+            return false;
+        }
+        
         adminMessage.hidden = true;
         adminContent.hidden = false;
 
