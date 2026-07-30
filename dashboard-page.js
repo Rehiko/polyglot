@@ -18,6 +18,10 @@ function showDashboardError(text) {
     dashboardMessage.textContent = text;
     dashboardMessage.className = "notice error";
     dashboardMessage.hidden = false;
+    
+    document
+        .getElementById("siteFooter")
+        ?.removeAttribute("hidden");
 }
 
 function showDashboardNotice(text, type = "success") {
@@ -637,6 +641,9 @@ window.POLYGLOT_DASHBOARD_CLIENT = supabaseClient;
 
         dashboardMessage.hidden = true;
         dashboardContent.hidden = false;
+
+        document.getElementById("siteFooter")?.removeAttribute("hidden");
+        document.body.classList.remove("dashboard-loading");
     }
 
     document
