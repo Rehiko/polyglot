@@ -660,3 +660,45 @@
         width: 100%;
     }
 }
+
+
+.materials-hero {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+#materialsFooter[hidden] {
+    display: none !important;
+}
+/* Long file names and form content must never widen the page. */
+.materials-hero > div, .materials-section-heading > div, .materials-card-body,
+.materials-form-footer > *, .homework-submission, .homework-card, .materials-library { min-width: 0; }
+.materials-card h3, .homework-card h3, .homework-feedback-box { overflow-wrap: anywhere; }
+.materials-card-actions, .material-file-selection-heading { flex-wrap: wrap; }
+.materials-tabs { max-width: 100%; flex-wrap: wrap; }
+.materials-field input, .materials-field select { min-width: 0; }
+@media (max-width: 900px) {
+    .materials-card { grid-template-columns: auto minmax(0, 1fr); }
+    .materials-card-actions { grid-column: 1 / -1; justify-content: flex-end; }
+}
+@media (max-width: 700px) {
+    .materials-main { width: calc(100% - 24px); }
+    .materials-hero { padding: 24px 18px; gap: 18px; flex-wrap: wrap; }
+    .materials-hero h1 { font-size: clamp(28px, 7vw, 38px); }
+    .materials-composer, .materials-library { padding: 22px 16px; }
+    .materials-field input, .materials-field select, .materials-field textarea, .homework-feedback { font-size: 16px; }
+    .materials-tab, .material-open-button, .material-delete-button, .homework-action-button, .selected-material-file button,
+    .material-file-row .material-open-button { min-height: 44px; white-space: normal; }
+    .homework-card { padding: 18px 14px; }
+    .homework-submission { padding: 14px 12px; }
+    .material-file-row { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 12px; }
+    .material-file-name { white-space: normal; overflow-wrap: anywhere; }
+    .material-file-row .material-open-button { justify-self: start; width: auto; }
+}
+@media (max-width: 380px) {
+    .materials-card { grid-template-columns: minmax(0, 1fr); }
+    .materials-card-icon { width: 40px; height: 40px; }
+    .materials-tabs { grid-template-columns: minmax(0, 1fr); }
+    .selected-material-file { grid-template-columns: minmax(0, 1fr); }
+    .selected-material-file button { justify-self: start; }
+}

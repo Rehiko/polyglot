@@ -40,6 +40,8 @@
 
         const card = document.createElement("article");
         card.className = "teacher featured-teacher-card";
+        card.dataset.requireAuth = "";
+        card.dataset.destination = `teacher-profile.html?id=${encodeURIComponent(teacher.user_id)}`;
 
         const photo = document.createElement("div");
         photo.className = "featured-teacher-photo";
@@ -88,7 +90,8 @@
 
         const profileLink = document.createElement("a");
         profileLink.className = "featured-profile-link";
-        profileLink.href = `teacher-profile.html?id=${encodeURIComponent(teacher.user_id)}`;
+        profileLink.href = card.dataset.destination;
+        profileLink.dataset.requireAuth = "";
         profileLink.dataset.i18n = "profile";
         profileLink.textContent = "View Profile";
         content.appendChild(profileLink);
@@ -101,7 +104,9 @@
         teachersGrid.replaceChildren();
 
         if (!teachers.length) {
+            teachersMessage.dataset.i18n = "emptyTeachers";
             teachersMessage.textContent = "Approved teachers will appear here soon.";
+            window.updateContent?.();
             teachersMessage.hidden = false;
             return;
         }
@@ -118,8 +123,8 @@
 
     async function loadFeaturedTeachers() {
         if (!configIsReady || !window.supabase) {
-            teachersMessage.textContent =
-                "Add the Supabase URL and publishable key to supabase-config.js.";
+            teachersMessage.dataset.i18n = "errorTeachers";
+            window.updateContent?.();
             return;
         }
 
@@ -135,12 +140,17 @@
 
         if (error) {
             console.error("Featured teachers could not be loaded:", error);
-            teachersMessage.textContent = "Teachers could not be loaded right now.";
+            teachersMessage.dataset.i18n = "errorTeachers";
+            window.updateContent?.();
             return;
         }
 
         renderTeachers(data || []);
     }
 
-    loadFeaturedTeachers();
+    loadFeaturedTeachers().catch((error) => {
+        console.warn("Teachers unavailable:", error);
+        teachersMessage.dataset.i18n = "errorTeachers";
+        window.updateContent?.();
+    });
 })();

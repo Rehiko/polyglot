@@ -434,3 +434,28 @@
         width: 100%;
     }
 }
+/* Preserve table columns inside a bounded, touch-scrollable region. */
+.admin-main, .admin-section, .admin-table-wrapper, .admin-payout-teacher { min-width: 0; }
+.admin-table-wrapper { max-width: 100%; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #8ba344 #edf0ee; }
+.admin-stat-grid { grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); }
+.admin-payout-card { grid-template-columns: minmax(0, 1fr) auto auto; }
+.admin-payout-teacher span, .admin-teacher-information > span { overflow-wrap: anywhere; }
+.admin-teacher-actions, .admin-payout-totals { flex-wrap: wrap; }
+@media (max-width: 1100px) {
+    .admin-payout-card { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .admin-payout-totals { justify-content: flex-start; }
+    .admin-mark-paid-button { justify-self: start; }
+}
+@media (max-width: 700px) {
+    .admin-main { width: calc(100% - 24px); }
+    .admin-section { padding: 22px 14px; }
+    .admin-section-heading { flex-wrap: wrap; }
+    .admin-section-heading h2 { font-size: 24px; }
+    .admin-payout-card, .admin-teacher-item { padding: 18px 14px; }
+    .admin-payout-total { min-width: 0; flex: 1 1 95px; }
+    .admin-mark-paid-button { width: 100%; white-space: normal; }
+    .admin-action-button, .admin-mark-paid-button { min-height: 44px; }
+    .admin-teacher-actions { gap: 10px; }
+    .admin-action-button { flex: 1 1 90px; }
+    .admin-table th, .admin-table td { padding: 13px; }
+}

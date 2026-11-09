@@ -1,293 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Polyglot</title>
+<title>Polyglot — A world of possibilities</title>
+<meta name="description" content="Learn Spanish, English or Japanese with a teacher who understands your goals. Personal lessons, flexible scheduling and real conversations.">
+<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="layout.css">
 <link rel="stylesheet" href="featured-teachers.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="/images/favicon.png" type="image/png">
-<link rel="shortcut icon" href="/images/favicon.png">
+<script src="index-auth-guard.js"></script>
 </head>
-
-
 <body>
-
-
-<header>
-
-<div class="logo">
-POLYGLOT
-</div>
-
-
-<nav>
-
-<a href="teachers.html" data-i18n="teachers">
-    Teachers
-</a>
-
-<a href="#" data-i18n="courses">Courses</a>
-
-<a href="#" data-i18n="materials">
-Personalized Materials
-</a>
-
-<a href="login.html#login" data-i18n="login">Login</a>
-
+<a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+<div class="top-section">
+<header class="site-header container">
+<a class="logo" href="index.html" aria-label="Polyglot home">POLYGLOT<span class="logo-dot">.</span></a>
+<nav class="main-nav" aria-label="Main navigation">
+<a href="teachers.html" data-require-auth data-i18n="teachers">Teachers</a>
+<a href="packages.html" data-require-auth data-i18n="courses">Courses</a>
+<a href="materials.html" data-require-auth data-i18n="materials">Materials</a>
 </nav>
-
-
-
+<div class="header-actions">
 <div class="language-switcher">
-
-
-<button id="langBtn">
-    <img src="images/language-icon.png" alt="Language">
-    <span>Language</span>
-</button>
-
-
-
-<div class="language-menu" id="langMenu">
-
-
-<div onclick="changeLanguage('en')">
-<img src="images/flags/uk.png" alt="English"> English
+<button id="langBtn" class="language-toggle" aria-expanded="false" aria-controls="langMenu" aria-label="Change language"><span id="currentLanguage">EN</span><span aria-hidden="true">⌄</span></button>
+<div class="language-menu" id="langMenu" hidden>
+<button type="button" data-language="en" lang="en">English</button>
+<button type="button" data-language="uk" lang="uk">Українська</button>
+<button type="button" data-language="es" lang="es">Español</button>
+<button type="button" data-language="ja" lang="ja">日本語</button>
 </div>
-
-
-<div onclick="changeLanguage('uk')">
-<img src="images/flags/ukraine.png" alt="Українська"> Українська
+</div> 
+<a href="login.html#login" class="login-link" data-i18n="login">Log in</a>
+<a href="login.html#register" class="button button-small" data-i18n="signup">Sign up</a>
 </div>
-
-
-<div onclick="changeLanguage('es')">
-<img src="images/flags/spain.png" alt="Español"> Español
-</div>
-
-
-<div onclick="changeLanguage('ja')">
-<img src="images/flags/japan.png" alt="日本語"> 日本語
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
 </header>
-
-
-
-
-
-<section class="hero">
-
-
+</div>
+<main id="main">
+<div class="top-section">
+<section class="hero container" aria-labelledby="heroTitle">
 <div class="hero-text">
-
-
-<h1 class="hero-title">
-    <span class="learn" data-i18n="titleLearn">Learn</span>
-    <span class="title-rest" data-i18n="titleRest">
-        languages anywhere.
-    </span>
-</h1>
-
-
-
-<p data-i18n="description">
-
-Choose your teacher, book lessons and access learning materials.
-
-</p>
-
-
-
-<button data-i18n="button">
-Find Teacher
-</button>
-
-
-
+<p class="eyebrow" data-i18n="eyebrow">SMALL STEPS. REAL CONVERSATIONS.</p>
+<h1 id="heroTitle"><span data-i18n="titleStart">A new language.</span><br><span data-i18n="titleMiddle">A world of</span><br><span class="accent" data-i18n="titleEnd">possibilities.</span></h1>
+<p class="hero-description" data-i18n="description">Find your teacher. Build your confidence. Speak your way.</p>
+<a class="button hero-cta" href="teachers.html" data-require-auth><span data-i18n="create">Create an account</span><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<p class="member-line"><span data-i18n="member">Already a member?</span> <a href="login.html#login" data-i18n="login">Log in</a></p>
 </div>
-
-
-
-<div class="hero-card">
-
-    <div class="learning-preview">
-
-        <div class="learning-preview-text">
-
-            <h2>
-                Learn today.<br>
-                Use tomorrow.
-            </h2>
-
-            <ul>
-                <li>
-                    <span class="preview-check">✓</span>
-                    Real conversations
-                </li>
-
-                <li>
-                    <span class="preview-check">✓</span>
-                    Interactive activities
-                </li>
-
-                <li>
-                    <span class="preview-check">✓</span>
-                    Cultural insights
-                </li>
-
-                <li>
-                    <span class="preview-check">✓</span>
-                    Progress tracking
-                </li>
-            </ul>
-
-        </div>
-
-
-        <div class="learning-preview-image">
-
-            <img
-                src="images/language-globe.png"
-                alt="Learn languages around the world"
-            >
-
-        </div>
-
-    </div>
-
+<div class="hero-art">
+<div class="art-backdrop"></div>
+<div class="world-card">
+<div class="world-card-label"><span class="live-dot"></span><span data-i18n="worldLabel">A little practice. A bigger world.</span></div>
+<img src="images/language-globe.jpg" alt="People around the world greeting one another in different languages" width="640" height="420" fetchpriority="high">
+<div class="world-caption"><span data-i18n="worldCaption">Different languages. Real connections.</span><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 </div>
-
-
-
+<span class="speech speech-one" lang="es">¡Hola!</span><span class="speech speech-two" lang="ja">こんにちは</span>
+<div class="conversation-note"><span class="note-icon" aria-hidden="true">↔</span><span data-i18n="conversation">Learn through real conversations</span></div>
+</div>
 </section>
-
-
-
-
-
-<section class="languages">
-
-    <h2 data-i18n="popular">Choose your language</h2>
-
-    <div class="language-cards">
-
-        <!-- Spanish -->
-        <div class="language-card spanish-card">
-
-            <div class="language-illustration">
-                <img src="images/mexican-building.jpg" alt="Spanish-Mexico">
-            </div>
-
-            <div class="language-card-content">
-                <h3>Spanish</h3>
-
-                <p>
-                    From beginner to fluent.<br>
-                    Speak with confidence.
-                </p>
-
-                <a href="#">
-                    Learn more
-                    <span>→</span>
-                </a>
-            </div>
-
-        </div>
-
-
-        <!-- English -->
-        <div class="language-card english-card">
-
-            <div class="language-illustration">
-                <img src="images/london-building.png" alt="English">
-            </div>
-
-            <div class="language-card-content">
-                <h3>English</h3>
-                <p>
-                    Improve your communication<br>
-                    for work, travel and life.
-                </p>
-
-                <a href="#">
-                    Learn more
-                    <span>→</span>
-                </a>
-            </div>
-
-        </div>
-
-
-        <!-- Japanese -->
-        <div class="language-card japanese-card">
-
-            <div class="language-illustration">
-                <img src="images/japanese-building.png" alt="Japanese">
-            </div>
-
-            <div class="language-card-content">
-                <h3>Japanese</h3>
-
-                <p>
-                    Discover the language<br>
-                    and culture.
-                </p>
-
-                <a href="#">
-                    Learn more
-                    <span>→</span>
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="benefits container"><span><i aria-hidden="true">✓</i><span data-i18n="benefitOne">1-to-1 lessons</span></span><span><i aria-hidden="true">✓</i><span data-i18n="benefitTwo">Flexible scheduling</span></span><span><i aria-hidden="true">✓</i><span data-i18n="benefitThree">Personalised learning</span></span></div>
+</div>
+<section class="languages container section" aria-labelledby="languagesTitle">
+<div class="section-heading"><div><p class="eyebrow" data-i18n="explore">YOUR NEXT CHAPTER</p><h2 id="languagesTitle" data-i18n="popular">Where will your next language take you?</h2></div></div>
+<div class="language-cards">
+<a class="language-card" href="teachers.html" data-require-auth><div class="language-illustration"><img src="images/mexican-building.jpg" alt="Original illustrated Mexico City travel poster" loading="lazy"></div><div class="language-card-content"><div><h3 data-i18n="spanish">Spanish</h3><p data-i18n="spanishText">From your first words to real conversations.</p></div><span class="circle-arrow"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+<a class="language-card" href="teachers.html" data-require-auth><div class="language-illustration"><img src="images/london-building.png" alt="Original illustrated London travel poster" loading="lazy"></div><div class="language-card-content"><div><h3 data-i18n="english">English</h3><p data-i18n="englishText">For work, travel and everything in between.</p></div><span class="circle-arrow"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+<a class="language-card" href="teachers.html" data-require-auth><div class="language-illustration"><img src="images/japanese-building.png" alt="Original illustrated Japanese travel poster" loading="lazy"></div><div class="language-card-content"><div><h3 data-i18n="japanese">Japanese</h3><p data-i18n="japaneseText">Discover a language. Connect with a culture.</p></div><span class="circle-arrow"><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+</div>
 </section>
-
-
-
-
-
-
-
-<section class="teachers" id="teachers">
-    <div class="featured-teachers-heading">
-        <h2 data-i18n="featured">Featured Teachers</h2>
-        <a class="view-all-teachers" href="teachers.html">View all teachers →</a>
-    </div>
-
-    <p id="featuredTeachersMessage" class="featured-teachers-message">
-        Loading approved teachers...
-    </p>
-
-    <div id="featuredTeacherGrid" class="teacher-grid"></div>
+<section class="teachers container section" id="teachers" aria-labelledby="teachersTitle">
+<div class="featured-teachers-heading"><div><p class="eyebrow" data-i18n="people">REAL PEOPLE. PERSONAL LEARNING.</p><h2 id="teachersTitle" data-i18n="featured">Meet your next teacher</h2></div><a class="view-all-teachers" href="teachers.html" data-require-auth><span data-i18n="viewAll">View all teachers</span> <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+<p id="featuredTeachersMessage" class="featured-teachers-message" role="status" data-i18n="loadingTeachers">Finding your next teacher…</p>
+<div id="featuredTeacherGrid" class="teacher-grid"></div>
 </section>
-
-
-
-
-
-<script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+<section class="signup-band"><div class="container signup-inner"><div><p class="eyebrow" data-i18n="ready">READY WHEN YOU ARE</p><h2 data-i18n="closing">Your first conversation starts here.</h2></div><a class="button" href="teachers.html" data-require-auth><span data-i18n="getStarted">Sign up to get started</span><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></section>
+</main>
+<footer class="site-footer container"><div class="footer-top"><a class="logo" href="index.html">POLYGLOT<span class="logo-dot">.</span></a><nav aria-label="Legal information"><a href="terms.html" data-i18n="terms">Terms</a><a href="privacy.html" data-i18n="privacy">Privacy</a><a href="refund-policy.html" data-i18n="refunds">Refunds</a><a href="cancellation-policy.html" data-i18n="cancellations">Cancellations</a><a href="mailto:polyglot.school.admin@gmail.com" data-i18n="contact">Contact</a></nav></div><div class="footer-bottom"><span>© 2026 Polyglot School.</span><span data-i18n="footerText">A world of languages. A place for you.</span></div></footer>
 <script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="featured-teachers.js"></script>
-
-
 </body>
-
 </html>

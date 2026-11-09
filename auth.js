@@ -92,12 +92,15 @@ function ensureConfiguration(messageElement) {
 }
 
 function redirectToDashboard() {
-    const savedReturnUrl = sessionStorage.getItem("polyglotReturnAfterLogin");
-    if (savedReturnUrl) {
+    let savedReturnUrl = null;
+    try {
+        savedReturnUrl = sessionStorage.getItem("polyglotReturnAfterLogin");
         sessionStorage.removeItem("polyglotReturnAfterLogin");
+    } catch (_error) { /* Continue to the dashboard without browser storage. */ }
+    if (savedReturnUrl) {
         try {
             const returnUrl = new URL(savedReturnUrl, window.location.href);
-            const allowedPages = ["/teacher-profile.html", "/packages.html", "/payment-success.html"];
+            const allowedPages = ["/teacher-profile.html", "/teachers.html", "/materials.html", "/packages.html", "/payment-success.html"];
             const isAllowedPage = allowedPages.some((page) => returnUrl.pathname.endsWith(page));
             if (returnUrl.origin === window.location.origin && isAllowedPage) {
                 window.location.href = returnUrl.href;

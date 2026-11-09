@@ -270,3 +270,27 @@
         flex-direction: column;
     }
 }
+
+#packagesGrid > *:nth-child(2) {
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 0.1px solid rgba(68, 67, 67, 0.146);
+}
+
+.packages-grid > *, .balance-banner > div, .payment-security-note > div { min-width: 0; }
+.package-price, .payment-result-details { overflow-wrap: anywhere; }
+@media (min-width: 701px) and (max-width: 1000px) {
+    .packages-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lesson-package-card { padding: 24px; }
+}
+@media (max-width: 700px) {
+    .packages-main { width: calc(100% - 32px); padding-block: 35px 50px; }
+    .packages-grid { grid-template-columns: minmax(0, 1fr); }
+    .packages-hero h1 { font-size: clamp(32px, 9vw, 46px); }
+    .lesson-package-card { padding: 24px 20px; }
+    .balance-banner { flex-wrap: wrap; padding: 20px; }
+    .payment-security-note { align-items: flex-start; padding: 18px; }
+    .payment-result-page { padding: 16px; }
+    .payment-result-card { padding: 28px 20px; }
+    .payment-result-card h1 { font-size: 28px; }
+}

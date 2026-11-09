@@ -3,6 +3,7 @@
 
     const pageMessage = document.getElementById("materialsMessage");
     const pageContent = document.getElementById("materialsContent");
+    const pageFooter = document.getElementById("materialsFooter");
 
     const dashboardLink =
         document.getElementById("materialsDashboardLink");
@@ -49,7 +50,7 @@
     const saveHomeworkButton =
         document.getElementById("saveHomeworkButton");
     const homeworkList = document.getElementById("homeworkList");
-    const homeworkCount = document.getElementById("homeworkCount");
+    const homeworkCount = document.getElementById("homeworkCount"); 
 
     const supabaseUrl = window.POLYGLOT_SUPABASE_URL;
     const supabaseKey = window.POLYGLOT_SUPABASE_KEY;
@@ -1602,6 +1603,10 @@
 
         pageContent.hidden = false;
         hidePageMessage();
+
+        if (pageFooter) {
+        pageFooter.hidden = false;
+        }
     }
 
     materialType.addEventListener("change", () => {
@@ -1661,3 +1666,4 @@
     materialType.dispatchEvent(new Event("change"));
     initializePage();
 })();
+

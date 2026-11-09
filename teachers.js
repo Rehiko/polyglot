@@ -28,11 +28,18 @@ function addText(parent, tag, className, text) {
 
 function createTeacherCard(teacher) {
     const profile = teacher.profiles;
-    const card = document.createElement("article");
+
+    const card = document.createElement("a");
     card.className = "directory-teacher-card";
+    card.href = `teacher-profile.html?id=${encodeURIComponent(teacher.user_id)}`;
+    card.setAttribute(
+        "aria-label",
+        `View ${profile.full_name} profile`
+    );
 
     const photoWrap = document.createElement("div");
     photoWrap.className = "directory-teacher-photo";
+
     if (profile.avatar_url) {
         const image = document.createElement("img");
         image.src = profile.avatar_url;
@@ -40,34 +47,67 @@ function createTeacherCard(teacher) {
         image.loading = "lazy";
         photoWrap.appendChild(image);
     } else {
-        addText(photoWrap, "span", "teacher-initials", initials(profile.full_name));
+        addText(
+            photoWrap,
+            "span",
+            "directory-avatar-placeholder",
+            profile.full_name.charAt(0).toUpperCase()
+        );
     }
-    addText(photoWrap, "span", "approved-mark", "✓ Approved");
+
     card.appendChild(photoWrap);
 
     const content = document.createElement("div");
     content.className = "directory-teacher-content";
+
     addText(content, "h2", "", profile.full_name);
-    addText(content, "p", "teacher-headline", teacher.headline || "Polyglot language teacher");
+
+    addText(
+        content,
+        "p",
+        "teacher-headline",
+        teacher.headline || "Polyglot language teacher"
+    );
 
     const chips = document.createElement("div");
     chips.className = "teacher-language-chips";
-    (teacher.languages || []).slice(0, 3).forEach((language) => addText(chips, "span", "", language));
+
+    (teacher.languages || [])
+        .slice(0, 3)
+        .forEach((language) => {
+            addText(chips, "span", "", language);
+        });
+
     content.appendChild(chips);
 
     const facts = document.createElement("div");
     facts.className = "teacher-card-facts";
-    addText(facts, "span", "", `${teacher.experience_years ?? 0} years experience`);
-    addText(facts, "span", "", `${teacher.lesson_duration_minutes || 60} min lessons`);
+
+    addText(
+        facts,
+        "span",
+        "",
+        `${teacher.experience_years ?? 0} years experience`
+    );
+
+    addText(
+        facts,
+        "span",
+        "",
+        `${teacher.lesson_duration_minutes || 60} min lessons`
+    );
+
     content.appendChild(facts);
 
-    const link = document.createElement("a");
-    link.className = "teacher-profile-link";
-    link.href = `teacher-profile.html?id=${encodeURIComponent(teacher.user_id)}`;
-    link.append("View profile ");
-    addText(link, "span", "", "→");
-    content.appendChild(link);
+    const profileText = document.createElement("span");
+    profileText.className = "teacher-profile-link";
+    profileText.append("View profile ");
+
+    addText(profileText, "span", "", "→");
+
+    content.appendChild(profileText);
     card.appendChild(content);
+
     return card;
 }
 
@@ -102,6 +142,38 @@ async function loadTeachers() {
     }
 
     const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+    logoutButton.addEventListener("click", async () => {
+        const originalText = logoutButton.textContent;
+
+        logoutButton.disabled = true;
+        logoutButton.textContent = "Logging out...";
+
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+            console.error("Logout error:", error);
+
+            logoutButton.disabled = false;
+            logoutButton.textContent = originalText;
+
+            const message = document.getElementById("teachersMessage");
+
+            if (message) {
+                message.textContent = `Could not log out: ${error.message}`;
+                message.classList.add("error");
+            }
+
+            return;
+        }
+
+        window.location.replace("login.html#login");
+    });
+}
+
     const { data, error } = await supabaseClient
         .from("teacher_profiles")
         .select("user_id, headline, languages, experience_years, lesson_duration_minutes, profiles!inner(full_name, avatar_url)")

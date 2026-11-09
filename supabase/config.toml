@@ -22,3 +22,36 @@ entrypoint = "./functions/capture-paypal-order/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/capture-paypal-order/*.html" ]
+
+[functions.google-calendar-oauth]
+enabled = true
+verify_jwt = false
+import_map = "./functions/google-calendar-oauth/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/google-calendar-oauth/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/google-calendar-oauth/*.html" ]
+
+[functions.create-google-meet]
+enabled = true
+verify_jwt = false
+import_map = "./functions/create-google-meet/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/create-google-meet/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/create-google-meet/*.html" ]
+
+[functions.cancel-google-meet]
+enabled = true
+verify_jwt = false
+import_map = "./functions/cancel-google-meet/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/cancel-google-meet/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/cancel-google-meet/*.html" ]

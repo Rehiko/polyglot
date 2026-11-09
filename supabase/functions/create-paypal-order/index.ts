@@ -1,3 +1,5 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -89,7 +91,59 @@ Deno.serve(async (request: Request) => {
     );
   }
 
-  try {
+ try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+
+    if (!supabaseUrl || !anonKey) {
+        throw new Error("Supabase environment variables are missing.");
+    }
+
+    const authorization = request.headers.get("Authorization");
+
+    if (!authorization?.startsWith("Bearer ")) {
+        return jsonResponse(
+            { error: "You must be logged in to purchase lessons." },
+            401
+        );
+    }
+
+    const userClient = createClient(supabaseUrl, anonKey, {
+        global: {
+            headers: {
+                Authorization: authorization
+            }
+        },
+        auth: {
+            persistSession: false,
+            autoRefreshToken: false
+        }
+    });
+
+    const { data: userData, error: userError } =
+        await userClient.auth.getUser();
+
+    if (userError || !userData.user) {
+        return jsonResponse(
+            { error: "Your login session is invalid or has expired." },
+            401
+        );
+    }
+
+    const { data: profile, error: profileError } =
+        await userClient
+            .from("profiles")
+            .select("role")
+            .eq("id", userData.user.id)
+            .single();
+
+    if (profileError || profile?.role !== "student") {
+        return jsonResponse(
+            { error: "Lesson packages can be purchased only by students." },
+            403
+        );
+    }
+
     const body = await request.json();
     const packageId = body?.packageId;
 

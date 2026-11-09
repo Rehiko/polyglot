@@ -51,6 +51,8 @@
         const { data: userData, error: userError } =
             await client.auth.getUser();
 
+
+
         if (userError || !userData.user) {
             balanceElement.textContent = "—";
             accountMessage.textContent =
@@ -98,6 +100,25 @@
         accountMessage.textContent =
             "Purchased lessons stay on your balance until you book them.";
     }
+
+
+    const logoutButton = document.getElementById("logoutButton");
+
+logoutButton?.addEventListener("click", async () => {
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Logging out...";
+
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+        console.error("Logout error:", error);
+        logoutButton.disabled = false;
+        logoutButton.textContent = "Log out";
+        return;
+    }
+
+    window.location.replace("login.html#login");
+});
 
     async function refreshBalance() {
         if (!viewer.user || viewer.role !== "student") {

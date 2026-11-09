@@ -1767,3 +1767,140 @@ body.page-loading .site-footer {
 footer[hidden] {
     display: none !important;
 }
+
+.student-welcome,
+.teacher-welcome {
+    background: #ffffff !important;
+}
+
+/* Teacher photo — рамка лише зліва та справа */
+.directory-teacher-photo {
+    position: relative;
+    width: 100%;
+    height: auto !important;
+    padding: 0 55px !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.directory-teacher-photo img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+    object-position: center top;
+}
+
+/* Позначка поверх фотографії */
+.directory-teacher-photo .approved-mark {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    z-index: -99;
+}
+
+@media (max-width: 600px) {
+    .directory-teacher-photo {
+        padding-right: 28px !important;
+        padding-left: 28px !important;
+    }
+}
+
+.directory-teacher-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* Responsive foundation: fluid children, readable fields and wrapping navigation. */
+html { -webkit-text-size-adjust: 100%; }
+main, section, article, aside, nav, form, fieldset { min-width: 0; }
+fieldset { min-inline-size: 0; }
+img, video, iframe { max-width: 100%; }
+input, select, textarea { min-width: 0; max-width: 100%; font: inherit; }
+textarea { resize: vertical; }
+h1, h2, h3, p, a, strong, .notice, .selected-file-name { overflow-wrap: anywhere; }
+.auth-layout > *, .editor-fields > *, .dashboard-grid > *,
+.public-teacher-profile > *, .site-footer-inner > *, .welcome-card > *,
+.dashboard-panel > *, .role-options > * { min-width: 0; }
+.dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.primary-button, .secondary-button, .dashboard-action, .upload-button { max-width: 100%; white-space: normal; text-align: center; padding-block: 12px; }
+.dashboard-nav, .public-nav { min-width: 0; }
+.dashboard-nav a, .public-nav a { flex-shrink: 0; }
+.footer-contact a { overflow-wrap: anywhere; }
+.public-profile-content, .public-profile-sidebar { min-width: 0; }
+.reset-dialog { margin: auto; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; }
+.role-option:has(input:focus-visible), .level-options label:has(input:focus-visible) { outline: 3px solid var(--green-light); outline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid #8ba344; outline-offset: 3px; }
+@media (max-width: 1200px) {
+    .site-footer-inner { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 1100px) {
+    .dashboard-header { flex-wrap: wrap; gap: 12px 24px; }
+    .dashboard-header .logout-button { margin-left: auto; }
+    .dashboard-nav { order: 3; flex-basis: 100%; width: 100%; justify-content: flex-start; gap: 12px 24px; flex-wrap: wrap; overflow: visible; }
+    .dashboard-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+    .public-header { flex-wrap: wrap; gap: 12px 24px; }
+    .public-nav { flex-wrap: wrap; gap: 10px 22px; }
+    .public-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+    .public-teacher-profile { grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); }
+    .public-profile-content { padding: 24px; }
+}
+@media (max-width: 900px) {
+    .public-teacher-profile { grid-template-columns: minmax(0, 1fr); }
+    .public-profile-sidebar { max-width: none; }
+    .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .site-footer-inner { grid-template-columns: minmax(0, 1fr); }
+    .welcome-card, .dashboard-panel { flex-wrap: wrap; }
+    .teacher-card-facts { flex-wrap: wrap; }
+}
+@media (max-width: 700px) {
+    .simple-header { padding: 16px 20px; gap: 12px 18px; flex-wrap: wrap; }
+    .public-header { flex-direction: row; align-items: center; }
+    .public-nav { flex-basis: 100%; overflow: visible; }
+    .dashboard-main, .profile-editor-main, .teacher-directory-main, .public-profile-main { width: calc(100% - 32px); }
+    .dashboard-main, .profile-editor-main { margin-block: 28px 45px; }
+    .public-profile-main { padding-block: 28px 45px; }
+    .directory-hero { padding-block: 35px 26px; }
+    .directory-hero h1 { font-size: clamp(32px, 8vw, 48px); }
+    .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+    .editor-card, .welcome-card, .dashboard-panel, .public-profile-content, .public-profile-sidebar { padding: 22px; }
+    .profile-editor-heading { align-items: stretch; }
+    .profile-form-actions { align-items: stretch; }
+    .compact-button { min-width: 0; }
+    .site-footer { padding-inline: 20px; }
+    .footer-links a, .footer-contact a { min-height: 44px; display: inline-flex; align-items: center; }
+    .footer-links, .footer-contact { gap: 4px; }
+    .footer-bottom { flex-wrap: wrap; }
+    .selected-file-name { display: block; margin: 10px 0 0; }
+    .auth-header { gap: 12px; flex-wrap: wrap; }
+    .auth-header .back-link { min-height: 44px; }
+    .auth-layout { width: calc(100% - 32px); }
+    .auth-intro h1 { font-size: clamp(48px, 12vw, 70px); }
+    .reset-main { width: min(470px, calc(100% - 32px)); margin-block: 32px; }
+    .reset-card { padding: 24px 20px; }
+    .reset-dialog form { padding: 30px 20px 22px; }
+    .dialog-close { width: 44px; height: 44px; top: 5px; right: 5px; }
+    .label-row { flex-wrap: wrap; gap: 4px 12px; }
+    .password-toggle { min-height: 44px; min-width: 44px; right: 10px; }
+    .text-button, .form-switch button { min-height: 44px; }
+    input:not([type='checkbox']):not([type='radio']), select, textarea { font-size: 16px; }
+}
+@media (max-width: 380px) {
+    .simple-header { padding-inline: 16px; }
+    .simple-header .auth-logo { font-size: 23px; }
+    .logout-button { padding: 10px 14px; min-height: 44px; }
+    .auth-card, .editor-card, .public-profile-content, .public-profile-sidebar, .welcome-card, .dashboard-panel { padding: 20px 16px; }
+    .router-card { padding: 28px 20px; }
+    .auth-intro h1 { font-size: 48px; }
+    .form-heading h2, .reset-card h1 { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; }
+    .loading-spinner { animation-duration: 2s; }
+}

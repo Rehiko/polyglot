@@ -399,3 +399,28 @@ body.legal-page {
         scroll-behavior: auto;
     }
 }
+
+.legal-header, .legal-navigation, .legal-footer nav { flex-wrap: wrap; }
+.legal-layout > *, .legal-footer > * { min-width: 0; }
+.legal-card, .legal-meta { overflow-wrap: anywhere; }
+@media (max-width: 1000px) {
+    .legal-header { position: static; padding-block: 16px; gap: 12px 24px; }
+    .legal-navigation { gap: 8px 20px; }
+    .legal-navigation a:not(:last-child) { display: inline-flex; }
+    .legal-navigation a { min-height: 44px; align-items: center; }
+    .legal-layout { grid-template-columns: minmax(0, 1fr); }
+    .legal-toc { position: static; }
+    .legal-footer { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+    .legal-header { padding-inline: 16px; }
+    .legal-navigation { width: 100%; }
+    .legal-main { width: calc(100% - 24px); }
+    .legal-hero { padding: 30px 20px; }
+    .legal-hero h1 { font-size: clamp(32px, 10vw, 46px); }
+    .legal-card { padding: 26px 18px; }
+    .legal-card h2 { font-size: 25px; }
+    .controller-details { padding: 16px; }
+    .legal-toc a, .legal-footer nav a { min-height: 44px; display: flex; align-items: center; }
+    .legal-footer nav { gap: 6px 18px; }
+}
